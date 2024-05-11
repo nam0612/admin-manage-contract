@@ -1,0 +1,49 @@
+package com.fpt.adminservice.auth.service;
+
+
+import com.fpt.adminservice.auth.dto.UserCreateRequest;
+import com.fpt.adminservice.auth.dto.UserDto;
+import com.fpt.adminservice.auth.model.User;
+import com.fpt.adminservice.auth.model.UserStatus;
+import com.fpt.adminservice.auth.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class UserService {
+    private final UserRepository userRepository;
+
+    public String delete(String id) {
+        var user = userRepository.findById(id).orElseThrow();
+
+        user.setStatus(UserStatus.INACTIVE);
+        userRepository.save(user);
+        return "Successfully";
+    }
+
+    public UserDto createUser(UserCreateRequest userCreateRequest)
+    {
+        User user = User.builder()
+                .taxCode(userCreateRequest.getTaxCode())
+                .companyName(userCreateRequest.getCompanyName())
+                .presenter(userCreateRequest.getPresenter())
+                .email(userCreateRequest.getEmail())
+                .phone(userCreateRequest.getPhone())
+                .status(UserStatus.PROCESSING)
+                .build();
+        userRepository.save(user);
+        return UserDto.builder()
+                .companyName(user.getCompanyName())
+                .taxCode(user.getTaxCode())
+                .build();
+    }
+
+    public Page<UserDto> getUsers(Pageable pageable) {
+        return null;
+    }
+
+
+}
