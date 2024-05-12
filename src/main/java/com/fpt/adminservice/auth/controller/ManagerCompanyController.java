@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/manager/company")
+@RequestMapping("/manager/companyd")
 @RequiredArgsConstructor
 public class ManagerCompanyController {
     private final UserService userService;
@@ -28,5 +28,10 @@ public class ManagerCompanyController {
     @GetMapping()
     public ResponseEntity<Page<UserDto>> getAllUsers(Pageable pageable) {
         return ResponseEntity.ok(userService.getUsers(pageable));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDto> approveUser(@PathVariable("id") String id) {
+        return ResponseEntity.ok(userService.approve(id));
     }
 }

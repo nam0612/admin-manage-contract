@@ -1,5 +1,6 @@
 package com.fpt.adminservice.auth.model;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -7,8 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 public enum UserStatus {
     ACTIVE("ACTIVE"),
+    PROCESSING("PROCESSING"),
     INACTIVE("INACTIVE"),
-    PROCESSING("PROCESSING");
+    ;
 
     private final String userStatus;
 
