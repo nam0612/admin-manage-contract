@@ -2,6 +2,7 @@ package com.fpt.adminservice.auth.controller;
 
 import com.fpt.adminservice.auth.dto.UserCreateRequest;
 import com.fpt.adminservice.auth.dto.UserDto;
+import com.fpt.adminservice.auth.model.UserStatus;
 import com.fpt.adminservice.auth.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,8 +27,8 @@ public class ManagerCompanyController {
     }
 
     @GetMapping()
-    public ResponseEntity<Page<UserDto>> getAllUsers(Pageable pageable) {
-        return ResponseEntity.ok(userService.getUsers(pageable));
+    public ResponseEntity<Page<UserDto>> getAllUsers(@RequestParam(name = "status", required = false) UserStatus status, Pageable pageable) {
+        return ResponseEntity.ok(userService.getUsers(pageable, status));
     }
 
     @PutMapping("/{id}")

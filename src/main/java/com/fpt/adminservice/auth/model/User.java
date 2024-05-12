@@ -3,12 +3,15 @@ package com.fpt.adminservice.auth.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 @Entity
 @Table(name = "users")
@@ -38,7 +41,8 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
-
+    private LocalDateTime createdDate;
+    private LocalDateTime UpdatedDate;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

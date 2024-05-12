@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -36,6 +37,7 @@ public class UserService {
                 .email(userCreateRequest.getEmail())
                 .phone(userCreateRequest.getPhone())
                 .status(UserStatus.PROCESSING)
+                .createdDate(LocalDateTime.now())
                 .build();
         userRepository.save(user);
         return UserDto.builder()
@@ -44,8 +46,8 @@ public class UserService {
                 .build();
     }
 
-    public Page<UserDto> getUsers(Pageable pageable) {
-        var user = userRepository.findByStatus(UserStatus.PROCESSING, pageable);
+    public Page<UserDto> getUsers(Pageable pageable, UserStatus userStatus) {
+        var user = userRepository.findByStatus(userStatus, pageable);
         if(user.isEmpty()) {
             return Page.empty();
         }
@@ -72,7 +74,6 @@ public class UserService {
                 .status(user.getStatus())
                 .build();
     }
-
 
 
 }
