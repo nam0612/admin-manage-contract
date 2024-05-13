@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/manager/companyd")
+@RequestMapping("/manager/company")
 @RequiredArgsConstructor
 public class ManagerCompanyController {
     private final UserService userService;
