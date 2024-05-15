@@ -19,13 +19,6 @@ import org.springframework.web.bind.annotation.*;
 public class ManagerCompanyController {
     private final UserService userService;
 
-    @PostMapping("/public")
-    public ResponseEntity<UserDto> createUser(
-            @RequestBody UserCreateRequest request
-    ) {
-        return ResponseEntity.ok(userService.createUser(request));
-    }
-
     @GetMapping()
     public ResponseEntity<Page<UserDto>> getAllUsers(@RequestParam(name = "status", required = false) UserStatus status, Pageable pageable) {
         return ResponseEntity.ok(userService.getUsers(pageable, status));
