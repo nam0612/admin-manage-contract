@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class ManagerCompanyController {
     private final UserService userService;
 
-    @PostMapping()
+    @PostMapping("/public")
     public ResponseEntity<UserDto> createUser(
             @RequestBody UserCreateRequest request
     ) {
