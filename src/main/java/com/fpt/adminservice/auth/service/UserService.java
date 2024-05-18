@@ -6,6 +6,7 @@ import com.fpt.adminservice.auth.dto.UserDto;
 import com.fpt.adminservice.auth.model.User;
 import com.fpt.adminservice.auth.model.UserStatus;
 import com.fpt.adminservice.auth.repository.UserRepository;
+import com.fpt.adminservice.utils.QueryUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -48,18 +49,14 @@ public class UserService {
     }
 
     public Page<UserDto> getUsers(Pageable pageable, UserStatus userStatus, String name) {
-        var user = userRepository.findByStatus(userStatus, pageable);
+        var user = userRepository.search(QueryUtils.appendPercent(name), userStatus, pageable);
         if(user.isEmpty()) {
             return Page.empty();
         }
-        List<User> userList = user.getContent();
-        List<UserDto> userDtos = userList.stream().map(item -> UserDto.builder()
+        List<UserDto> userDtos = user.stream().map(item -> UserDto.builder()
                 .companyName(item.getCompanyName())
                 .taxCode(item.getTaxCode())
-                .presenter(item.getPresenter())
                 .status(item.getStatus())
-                .phone(item.getPhone())
-                .email(item.getEmail())
                 .price(item.getPrice())
                 .createdDate(item.getCreatedDate())
                 .endDateUseService(item.getEndDateUseService())
