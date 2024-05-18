@@ -46,21 +46,21 @@ public class AdminServiceApplication {
         if (pricePlanRepository.count() == 0) {
             PricePlan pricePlan3 = new PricePlan();
             pricePlan3.setName("3 Months");
-            pricePlan3.setPrice(2500000);
+            pricePlan3.setPrice(2500000.0);
             pricePlan3.setStatus(PlanStatus.ACTIVE);
             pricePlan3.setCreatedDate(LocalDateTime.now());
             pricePlanRepository.save(pricePlan3);
 
             PricePlan pricePlan6 = new PricePlan();
             pricePlan6.setName("6 Months");
-            pricePlan6.setPrice(5000000);
+            pricePlan6.setPrice(5000000.0);
             pricePlan6.setStatus(PlanStatus.ACTIVE);
             pricePlan6.setCreatedDate(LocalDateTime.now());
             pricePlanRepository.save(pricePlan6);
 
             PricePlan pricePlan12 = new PricePlan();
             pricePlan12.setName("12 Months");
-            pricePlan12.setPrice(7500000);
+            pricePlan12.setPrice(7500000.0);
             pricePlan12.setStatus(PlanStatus.ACTIVE);
             pricePlan12.setCreatedDate(LocalDateTime.now());
             pricePlanRepository.save(pricePlan12);

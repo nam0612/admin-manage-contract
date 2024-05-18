@@ -26,8 +26,7 @@ public class PricePlan {
     private String name;
     private String description;
 
-    @Column(nullable = false, precision = 19, scale = 4)
-    private BigDecimal price;
+    private Double price;
 
     @Enumerated(EnumType.STRING)
     private PlanStatus status;
