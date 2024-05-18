@@ -3,6 +3,7 @@ package com.fpt.adminservice.auth.service;
 
 import com.fpt.adminservice.auth.dto.UserCreateRequest;
 import com.fpt.adminservice.auth.dto.UserDto;
+import com.fpt.adminservice.auth.dto.UserInterface;
 import com.fpt.adminservice.auth.model.User;
 import com.fpt.adminservice.auth.model.UserStatus;
 import com.fpt.adminservice.auth.repository.UserRepository;
@@ -52,7 +53,7 @@ public class UserService {
     }
 
     public Page<UserDto> getUsers(Pageable pageable, UserStatus userStatus, String name) {
-        var user = userRepository.search(QueryUtils.appendPercent(name), pageable);
+        Page<UserInterface> user = userRepository.search(QueryUtils.appendPercent(name), String.valueOf(userStatus), pageable);
         if(user.isEmpty()) {
             return Page.empty();
         }
