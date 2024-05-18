@@ -1,4 +1,4 @@
-package com.fpt.adminservice.auth.dto;
+package com.fpt.adminservice.admin.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,5 +15,5 @@ public class UserCreateRequest {
     private String presenter;
     private String phone;
     private String email;
-
+    private String avatar;
 }

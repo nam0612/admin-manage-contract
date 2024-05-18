@@ -1,12 +1,12 @@
-package com.fpt.adminservice.auth.service;
+package com.fpt.adminservice.admin.service;
 
 
 import com.fpt.adminservice.admin.repository.PricePlanRepository;
-import com.fpt.adminservice.auth.dto.UserCreateRequest;
-import com.fpt.adminservice.auth.dto.UserDto;
-import com.fpt.adminservice.auth.dto.UserInterface;
+import com.fpt.adminservice.admin.dto.UserCreateRequest;
+import com.fpt.adminservice.admin.dto.UserDto;
+import com.fpt.adminservice.admin.dto.UserInterface;
 import com.fpt.adminservice.auth.model.User;
-import com.fpt.adminservice.auth.model.UserStatus;
+import com.fpt.adminservice.admin.model.UserStatus;
 import com.fpt.adminservice.auth.repository.UserRepository;
 import com.fpt.adminservice.utils.QueryUtils;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,6 +25,7 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final PricePlanRepository pricePlanRepository;
+    private final CloudinaryService cloudinaryService;
 
     public String delete(String id) {
         var user = userRepository.findById(id).orElseThrow();
@@ -52,8 +55,8 @@ public class UserService {
                 .build();
     }
 
-    public Page<UserDto> getUsers(Pageable pageable, UserStatus userStatus, String name) {
-        Page<UserInterface> user = userRepository.search(QueryUtils.appendPercent(name), String.valueOf(userStatus), pageable);
+    public Page<UserDto> getUsers(Pageable pageable, UserStatus userStatus, String name, LocalDateTime fromDate, LocalDateTime toDate) {
+        Page<UserInterface> user = userRepository.search(QueryUtils.appendPercent(name), String.valueOf(userStatus), fromDate, toDate, pageable);
         if(user.isEmpty()) {
             return Page.empty();
         }
@@ -93,7 +96,7 @@ public class UserService {
         var pricePlan = pricePlanRepository.findById(pricePlanId).orElseThrow();
 
         user.setPrice(user.getPrice() + pricePlan.getPrice());
-        user.setEndDateUseService(user.getEndDateUseService().plusMonths(pricePlan.getTimeWithYears()));
+        user.setEndDateUseService(user.getEndDateUseService().plusYears(pricePlan.getTimeWithYears()));
         user.setUpdatedDate(LocalDateTime.now());
         userRepository.save(user);
 
@@ -106,6 +109,23 @@ public class UserService {
                 .endDateUseService(user.getEndDateUseService())
                 .price(user.getPrice())
                 .build();
+    }
+
+    public UserDto uploadContract(MultipartFile file, String id) throws IOException {
+        var user = userRepository.findById(id).orElseThrow();
+        String fileLink = cloudinaryService.uploadImage(file);
+        user.setFile(fileLink);
+        userRepository.save(user);
+        return UserDto.builder()
+                .pricePlanId(user.getPricePlan())
+                .companyName(user.getCompanyName())
+                .taxCode(user.getTaxCode())
+                .status(user.getStatus())
+                .id(user.getId())
+                .endDateUseService(user.getEndDateUseService())
+                .price(user.getPrice())
+                .build();
+
     }
 
 

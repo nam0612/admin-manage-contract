@@ -1,6 +1,5 @@
-package com.fpt.adminservice.auth.model;
+package com.fpt.adminservice.admin.model;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 

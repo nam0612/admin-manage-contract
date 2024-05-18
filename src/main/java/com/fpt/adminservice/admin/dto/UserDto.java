@@ -1,6 +1,6 @@
-package com.fpt.adminservice.auth.dto;
+package com.fpt.adminservice.admin.dto;
 
-import com.fpt.adminservice.auth.model.UserStatus;
+import com.fpt.adminservice.admin.model.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,4 +28,5 @@ public class UserDto {
     private Double price;
     private String pricePlanId;
     private String pricePlanName;
+    private String avatar;
 }

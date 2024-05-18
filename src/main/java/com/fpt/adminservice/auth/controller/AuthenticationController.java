@@ -3,10 +3,10 @@ package com.fpt.adminservice.auth.controller;
 
 import com.fpt.adminservice.auth.dto.AuthenticationRequest;
 import com.fpt.adminservice.auth.dto.AuthenticationResponse;
-import com.fpt.adminservice.auth.dto.UserCreateRequest;
-import com.fpt.adminservice.auth.dto.UserDto;
+import com.fpt.adminservice.admin.dto.UserCreateRequest;
+import com.fpt.adminservice.admin.dto.UserDto;
 import com.fpt.adminservice.auth.service.AuthenticationService;
-import com.fpt.adminservice.auth.service.UserService;
+import com.fpt.adminservice.admin.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

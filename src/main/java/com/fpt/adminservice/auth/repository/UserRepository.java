@@ -1,14 +1,15 @@
 package com.fpt.adminservice.auth.repository;
 
-import com.fpt.adminservice.auth.dto.UserInterface;
+import com.fpt.adminservice.admin.dto.UserInterface;
 import com.fpt.adminservice.auth.model.User;
-import com.fpt.adminservice.auth.model.UserStatus;
+import com.fpt.adminservice.admin.model.UserStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
@@ -23,9 +24,12 @@ public interface UserRepository extends JpaRepository<User, Integer> {
                            JOIN price_plan pp ON u.price_plan = pp.id where
                            (lower(u.company_name) like lower(:name) or :name is null)
                            and u.status = :status
+                           and (u.start_date_use_service >= :fromDate between u.start_date_use_service <= :toDate)
             """
             , nativeQuery = true)
     Page<UserInterface> search(@Param("name") String name,
                                @Param("status") String status,
+                               @Param("fromDate") LocalDateTime fromDate,
+                               @Param("toDate") LocalDateTime toDate,
                                Pageable pageable);
 }
