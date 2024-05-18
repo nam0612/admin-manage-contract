@@ -23,7 +23,8 @@ public class UserService {
     public String delete(String id) {
         var user = userRepository.findById(id).orElseThrow();
 
-        user.setStatus(UserStatus.INACTIVE);
+        user.setStatus(UserStatus.LOCKED);
+        user.setUpdatedDate(LocalDateTime.now());
         userRepository.save(user);
         return "Successfully";
     }
@@ -46,7 +47,7 @@ public class UserService {
                 .build();
     }
 
-    public Page<UserDto> getUsers(Pageable pageable, UserStatus userStatus) {
+    public Page<UserDto> getUsers(Pageable pageable, UserStatus userStatus, String name) {
         var user = userRepository.findByStatus(userStatus, pageable);
         if(user.isEmpty()) {
             return Page.empty();
@@ -59,13 +60,20 @@ public class UserService {
                 .status(item.getStatus())
                 .phone(item.getPhone())
                 .email(item.getEmail())
+                .price(item.getPrice())
+                .createdDate(item.getCreatedDate())
+                .endDateUseService(item.getEndDateUseService())
+                .registerDate(item.getRegisterDate())
+                .pricePlan(item.getPricePlan())
+                .updatedDate(item.getUpdatedDate())
                 .build() ).toList();
         return new PageImpl<>(userDtos, pageable, userDtos.size());
     }
 
     public UserDto approve(String id) {
         var user = userRepository.findById(id).orElseThrow();
-        user.setStatus(UserStatus.ACTIVE);
+        user.setStatus(UserStatus.INUSE);
+        user.setUpdatedDate(LocalDateTime.now());
         userRepository.save(user);
         return UserDto.builder()
                 .presenter(user.getPresenter())

@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -17,4 +19,11 @@ public class UserDto {
     private String phone;
     private String email;
     private UserStatus status;
+    private LocalDateTime createdDate;
+    private LocalDateTime updatedDate;
+    private LocalDateTime startDateUseService;
+    private LocalDateTime endDateUseService;
+    private LocalDateTime registerDate;
+    private Double price;
+    private String pricePlan;
 }

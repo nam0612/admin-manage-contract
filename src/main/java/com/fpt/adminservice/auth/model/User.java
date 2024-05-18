@@ -42,7 +42,19 @@ public class User implements UserDetails {
     private UserStatus status;
 
     private LocalDateTime createdDate;
-    private LocalDateTime UpdatedDate;
+
+    private LocalDateTime updatedDate;
+
+    private LocalDateTime startDateUseService;
+
+    private LocalDateTime endDateUseService;
+
+    private LocalDateTime registerDate;
+
+    private Double price;
+
+    private String pricePlan;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/manager/companyd")
+@RequestMapping("/manager/company")
 @RequiredArgsConstructor
 public class ManagerCompanyController {
     private final UserService userService;
@@ -27,8 +27,11 @@ public class ManagerCompanyController {
     }
 
     @GetMapping()
-    public ResponseEntity<Page<UserDto>> getAllUsers(@RequestParam(name = "status", required = false) UserStatus status, Pageable pageable) {
-        return ResponseEntity.ok(userService.getUsers(pageable, status));
+    public ResponseEntity<Page<UserDto>> getAllUsers(
+            @RequestParam(name = "status", required = false) UserStatus status,
+            @RequestParam(name = "name", required = false) String name,
+            Pageable pageable) {
+        return ResponseEntity.ok(userService.getUsers(pageable, status, name));
     }
 
     @PutMapping("/{id}")
