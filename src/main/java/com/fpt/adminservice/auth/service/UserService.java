@@ -1,13 +1,13 @@
 package com.fpt.adminservice.auth.service;
 
 
+import com.fpt.adminservice.admin.repository.PricePlanRepository;
 import com.fpt.adminservice.auth.dto.UserCreateRequest;
 import com.fpt.adminservice.auth.dto.UserDto;
 import com.fpt.adminservice.auth.dto.UserInterface;
 import com.fpt.adminservice.auth.model.User;
 import com.fpt.adminservice.auth.model.UserStatus;
 import com.fpt.adminservice.auth.repository.UserRepository;
-import com.fpt.adminservice.pricePlan.repository.PricePlanRepository;
 import com.fpt.adminservice.utils.QueryUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -93,7 +93,7 @@ public class UserService {
         var pricePlan = pricePlanRepository.findById(pricePlanId).orElseThrow();
 
         user.setPrice(user.getPrice() + pricePlan.getPrice());
-        user.setEndDateUseService(user.getEndDateUseService().plusMonths(pricePlan.getTimeWithMonths()));
+        user.setEndDateUseService(user.getEndDateUseService().plusMonths(pricePlan.getTimeWithYears()));
         user.setUpdatedDate(LocalDateTime.now());
         userRepository.save(user);
 

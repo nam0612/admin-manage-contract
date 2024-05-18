@@ -1,11 +1,11 @@
 package com.fpt.adminservice;
 
+import com.fpt.adminservice.admin.model.PlanStatus;
+import com.fpt.adminservice.admin.model.PricePlan;
+import com.fpt.adminservice.admin.repository.PricePlanRepository;
 import com.fpt.adminservice.auth.model.User;
 import com.fpt.adminservice.auth.model.UserStatus;
 import com.fpt.adminservice.auth.repository.UserRepository;
-import com.fpt.adminservice.pricePlan.model.PlanStatus;
-import com.fpt.adminservice.pricePlan.model.PricePlan;
-import com.fpt.adminservice.pricePlan.repository.PricePlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

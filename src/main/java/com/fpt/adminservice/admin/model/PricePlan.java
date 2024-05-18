@@ -1,4 +1,4 @@
-package com.fpt.adminservice.pricePlan.model;
+package com.fpt.adminservice.admin.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,10 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
-import org.springframework.cglib.core.Local;
-import org.springframework.data.annotation.CreatedDate;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -25,7 +22,7 @@ public class PricePlan {
 
     private String name;
     private String description;
-    private Integer timeWithMonths;
+    private Integer timeWithYears;
 
     private Double price;
 

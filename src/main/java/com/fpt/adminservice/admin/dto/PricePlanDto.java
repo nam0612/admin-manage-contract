@@ -1,8 +1,6 @@
-package com.fpt.adminservice.pricePlan.dto;
+package com.fpt.adminservice.admin.dto;
 
 import lombok.*;
-
-import java.math.BigDecimal;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,4 +11,5 @@ public class PricePlanDto {
     private String name;
     private String description;
     private Double price;
+    private Integer timeWithYears;
 }

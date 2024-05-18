@@ -1,10 +1,10 @@
-package com.fpt.adminservice.pricePlan.service;
+package com.fpt.adminservice.admin.service;
 
-import com.fpt.adminservice.pricePlan.dto.CreatePricePlanRequest;
-import com.fpt.adminservice.pricePlan.dto.PricePlanDto;
-import com.fpt.adminservice.pricePlan.model.PlanStatus;
-import com.fpt.adminservice.pricePlan.model.PricePlan;
-import com.fpt.adminservice.pricePlan.repository.PricePlanRepository;
+import com.fpt.adminservice.admin.dto.CreatePricePlanRequest;
+import com.fpt.adminservice.admin.dto.PricePlanDto;
+import com.fpt.adminservice.admin.model.PlanStatus;
+import com.fpt.adminservice.admin.model.PricePlan;
+import com.fpt.adminservice.admin.repository.PricePlanRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class PricePlanService {
-    private final PricePlanRepository  pricePlanRepository;
+    private final PricePlanRepository pricePlanRepository;
 
 
     public List<PricePlanDto> getAll() {
@@ -24,6 +24,7 @@ public class PricePlanService {
                 .price(item.getPrice())
                 .id(item.getId())
                 .name(item.getName())
+                .timeWithYears(item.getTimeWithYears())
                 .description(item.getDescription())
                 .build()).toList();
     }
@@ -35,6 +36,7 @@ public class PricePlanService {
         pricePlan.setDescription(dto.getDescription());
         pricePlan.setName(dto.getName());
         pricePlan.setUpdatedDate(LocalDateTime.now());
+        pricePlan.setTimeWithYears(pricePlan.getTimeWithYears());
         pricePlanRepository.save(pricePlan);
         return PricePlanDto.builder()
                 .name(pricePlan.getName())
@@ -63,6 +65,7 @@ public class PricePlanService {
         pricePlan.setDescription(dto.getDescription());
         pricePlan.setPrice(dto.getPrice());
         pricePlan.setStatus(PlanStatus.ACTIVE);
+        pricePlan.setTimeWithYears(dto.getTimeWithYears());
         pricePlan.setCreatedDate(LocalDateTime.now());
         pricePlanRepository.save(pricePlan);
         return PricePlanDto.builder()

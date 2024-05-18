@@ -1,8 +1,8 @@
-package com.fpt.adminservice.pricePlan.controller;
+package com.fpt.adminservice.admin.controller;
 
-import com.fpt.adminservice.pricePlan.dto.CreatePricePlanRequest;
-import com.fpt.adminservice.pricePlan.dto.PricePlanDto;
-import com.fpt.adminservice.pricePlan.service.PricePlanService;
+import com.fpt.adminservice.admin.dto.CreatePricePlanRequest;
+import com.fpt.adminservice.admin.dto.PricePlanDto;
+import com.fpt.adminservice.admin.service.PricePlanService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
