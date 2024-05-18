@@ -14,7 +14,7 @@ public interface UserInterface {
     LocalDateTime getEndDateUseService();
     LocalDateTime getRegisterDate();
     Double getPrice();
-    String getPricePlan();
     String getTaxCode();
     String getPlanId();
+    String getPlanName();
 }

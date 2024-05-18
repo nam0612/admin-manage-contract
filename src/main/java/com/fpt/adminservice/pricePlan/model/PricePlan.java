@@ -25,6 +25,7 @@ public class PricePlan {
 
     private String name;
     private String description;
+    private Integer timeWithMonths;
 
     private Double price;
 

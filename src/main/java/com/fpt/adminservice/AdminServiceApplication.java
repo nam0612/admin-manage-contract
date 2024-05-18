@@ -34,6 +34,7 @@ public class AdminServiceApplication {
             adminUser.setEmail("admin@gmail.com");
             adminUser.setPhone("0352334588");
             adminUser.setPassword(passwordEncoder.encode("admin"));
+            adminUser.setStatus(UserStatus.PROCESSING);
             userRepository.save(adminUser);
             User user = new User();
             user.setEmail("user@gmail.com");

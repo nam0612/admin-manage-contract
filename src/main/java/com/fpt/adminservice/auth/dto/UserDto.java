@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class UserDto {
+    private String id;
     private String companyName;
     private String taxCode;
     private String presenter;
@@ -25,5 +26,6 @@ public class UserDto {
     private LocalDateTime endDateUseService;
     private LocalDateTime registerDate;
     private Double price;
-    private String pricePlan;
+    private String pricePlanId;
+    private String pricePlanName;
 }

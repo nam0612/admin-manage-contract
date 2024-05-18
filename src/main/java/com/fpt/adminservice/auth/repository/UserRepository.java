@@ -17,15 +17,14 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findById(String id);
     Page<User> findByStatus(UserStatus status, Pageable pageable);
     @Query(value = """
-        SELECT u.id,u.company_name as companyName, u.tax_code as taxCode, u.created_date, u.end_date_use_service, u.start_date_use_service, 
-            u.register_date, u.price, u.status, pp.name, pp.id as planId
+        SELECT u.id,u.company_name as companyName, u.tax_code as taxCode, u.created_date as createDate, u.end_date_use_service as endDateUseService, u.start_date_use_service, 
+            u.register_date, u.price, u.status, pp.name as planName, pp.id as planId
                            FROM users u
                            JOIN price_plan pp ON u.price_plan = pp.id where
-                            (lower(u.status) like lower(:status) or :status is null)
-                            and (lower(u.company_name) like lower(:name) or :name is null)
+                          (lower(u.company_name) like lower(:name) or :name is null)
             """
             , nativeQuery = true)
-    Page<UserInterface> search(@Param("name") String name,
-                               @Param("status") UserStatus status,
+    Page<UserInterface> search(
+                               @Param("name") String name,
                                Pageable pageable);
 }

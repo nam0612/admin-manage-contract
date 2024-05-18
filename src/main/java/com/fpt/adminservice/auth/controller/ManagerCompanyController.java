@@ -31,8 +31,8 @@ public class ManagerCompanyController {
         return ResponseEntity.ok(userService.approve(id));
     }
 
-//    @PatchMapping("/{id}/{pricePlan}")
-//    public ResponseEntity<UserDto> extend(@PathVariable("id") String id, @PathVariable("pricePlan") String pricePlan) {
-//        return ResponseEntity.ok(userService.extendService(id, pricePlan));
-//    }
+    @PatchMapping("/{id}/{pricePlan}")
+    public ResponseEntity<UserDto> extend(@PathVariable("id") String id, @PathVariable("pricePlan") String pricePlan) {
+        return ResponseEntity.ok(userService.extendService(id, pricePlan));
+    }
 }
