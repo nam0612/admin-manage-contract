@@ -9,6 +9,7 @@ import org.hibernate.annotations.UuidGenerator;
 import org.springframework.cglib.core.Local;
 import org.springframework.data.annotation.CreatedDate;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,7 +25,9 @@ public class PricePlan {
 
     private String name;
     private String description;
-    private double price;
+
+    @Column(nullable = false, precision = 19, scale = 4)
+    private BigDecimal price;
 
     @Enumerated(EnumType.STRING)
     private PlanStatus status;
