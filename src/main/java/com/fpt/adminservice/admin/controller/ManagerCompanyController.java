@@ -45,7 +45,7 @@ public class ManagerCompanyController {
 
     @PutMapping("/uploadContract")
     public ResponseEntity<UserDto> uploadContract(
-            @RequestParam("file") File file,
+            @RequestParam("file") MultipartFile file,
             @RequestParam("id") String id
     ) throws IOException {
         if (file == null) {

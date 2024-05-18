@@ -1,4 +1,4 @@
-package com.fpt.adminservice.admin;
+package com.fpt.adminservice.admin.controller;
 
 import com.fpt.adminservice.config.MailService;
 import jakarta.mail.MessagingException;

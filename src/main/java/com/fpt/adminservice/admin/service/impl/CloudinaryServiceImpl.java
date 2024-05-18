@@ -18,16 +18,9 @@ public class CloudinaryServiceImpl implements CloudinaryService {
   private final Cloudinary cloudinary;
 
   @Override
-  public String uploadImage(MultipartFile file) throws IOException {
-    Map options = ObjectUtils.asMap("public_id", "IMAGE_" + UUID.randomUUID());
-    Map result = cloudinary.uploader().upload(file, options);
-    return (String) result.get("url");
-  }
-
-  @Override
-  public String uploadPdf(File file) throws IOException {
-    Map options = ObjectUtils.asMap("public_id", "PDF_" + UUID.randomUUID());
-    Map result = cloudinary.uploader().upload(file, options);
+  public String uploadFile(MultipartFile file) throws IOException {
+    Map options = ObjectUtils.asMap("public_id", "G63_" + UUID.randomUUID());
+    Map result = cloudinary.uploader().upload(file.getBytes(), options);
     return (String) result.get("url");
   }
 }

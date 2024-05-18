@@ -112,9 +112,9 @@ public class UserService {
                 .build();
     }
 
-    public UserDto uploadContract(File file, String id) throws IOException {
+    public UserDto uploadContract(MultipartFile file, String id) throws IOException {
         var user = userRepository.findById(id).orElseThrow();
-        String fileLink = cloudinaryService.uploadPdf(file);
+        String fileLink = cloudinaryService.uploadFile(file);
         user.setFile(fileLink);
         userRepository.save(user);
         return UserDto.builder()
@@ -126,7 +126,6 @@ public class UserService {
                 .endDateUseService(user.getEndDateUseService())
                 .price(user.getPrice())
                 .build();
-
     }
 
 
