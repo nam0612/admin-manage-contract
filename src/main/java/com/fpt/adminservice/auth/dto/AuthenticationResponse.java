@@ -1,6 +1,10 @@
 package com.fpt.adminservice.auth.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class AuthenticationResponse {
 
     @JsonProperty("access_token")
@@ -16,19 +20,4 @@ public class AuthenticationResponse {
         this.refreshToken = refreshToken;
     }
 
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-
-    public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-    }
 }

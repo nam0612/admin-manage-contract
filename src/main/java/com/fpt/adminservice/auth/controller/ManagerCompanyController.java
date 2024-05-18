@@ -1,6 +1,5 @@
 package com.fpt.adminservice.auth.controller;
 
-import com.fpt.adminservice.auth.dto.UserCreateRequest;
 import com.fpt.adminservice.auth.dto.UserDto;
 import com.fpt.adminservice.auth.model.UserStatus;
 import com.fpt.adminservice.auth.service.UserService;
@@ -18,13 +17,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ManagerCompanyController {
     private final UserService userService;
-
-    @PostMapping()
-    public ResponseEntity<UserDto> createUser(
-            @RequestBody UserCreateRequest request
-    ) {
-        return ResponseEntity.ok(userService.createUser(request));
-    }
 
     @GetMapping()
     public ResponseEntity<Page<UserDto>> getAllUsers(

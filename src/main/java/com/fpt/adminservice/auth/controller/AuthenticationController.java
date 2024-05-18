@@ -3,7 +3,10 @@ package com.fpt.adminservice.auth.controller;
 
 import com.fpt.adminservice.auth.dto.AuthenticationRequest;
 import com.fpt.adminservice.auth.dto.AuthenticationResponse;
+import com.fpt.adminservice.auth.dto.UserCreateRequest;
+import com.fpt.adminservice.auth.dto.UserDto;
 import com.fpt.adminservice.auth.service.AuthenticationService;
+import com.fpt.adminservice.auth.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
 
   private final AuthenticationService service;
-
+  private final UserService userService;
 
   @PostMapping("/login")
   public ResponseEntity<AuthenticationResponse> login(
@@ -27,5 +30,10 @@ public class AuthenticationController {
   ) {
     return ResponseEntity.ok(service.authenticate(request));
   }
-
+  @PostMapping("/register")
+  public ResponseEntity<UserDto> register(
+          @RequestBody UserCreateRequest request
+  ) {
+    return ResponseEntity.ok(userService.createUser(request));
+  }
 }
