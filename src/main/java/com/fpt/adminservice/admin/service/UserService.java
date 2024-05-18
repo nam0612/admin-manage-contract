@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -111,9 +112,9 @@ public class UserService {
                 .build();
     }
 
-    public UserDto uploadContract(MultipartFile file, String id) throws IOException {
+    public UserDto uploadContract(File file, String id) throws IOException {
         var user = userRepository.findById(id).orElseThrow();
-        String fileLink = cloudinaryService.uploadImage(file);
+        String fileLink = cloudinaryService.uploadPdf(file);
         user.setFile(fileLink);
         userRepository.save(user);
         return UserDto.builder()

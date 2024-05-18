@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
@@ -44,10 +45,10 @@ public class ManagerCompanyController {
 
     @PutMapping("/uploadContract")
     public ResponseEntity<UserDto> uploadContract(
-            @RequestParam("file") MultipartFile file,
+            @RequestParam("file") File file,
             @RequestParam("id") String id
     ) throws IOException {
-        if (file.isEmpty()) {
+        if (file == null) {
             return ResponseEntity.badRequest().build();
         }
 
