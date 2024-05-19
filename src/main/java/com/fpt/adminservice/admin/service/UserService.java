@@ -11,15 +11,12 @@ import com.fpt.adminservice.auth.repository.UserRepository;
 import com.fpt.adminservice.utils.QueryUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +36,7 @@ public class UserService {
 
     public UserDto createUser(UserCreateRequest userCreateRequest)
     {
+        var planPrice = pricePlanRepository.findById(userCreateRequest.getPlanpriceId()).orElseThrow();
         User user = User.builder()
                 .taxCode(userCreateRequest.getTaxCode())
                 .companyName(userCreateRequest.getCompanyName())
@@ -46,7 +44,8 @@ public class UserService {
                 .email(userCreateRequest.getEmail())
                 .phone(userCreateRequest.getPhone())
                 .status(UserStatus.PROCESSING)
-                .price(0)
+                .price(planPrice.getPrice())
+                .pricePlan(userCreateRequest.getPlanpriceId())
                 .createdDate(LocalDateTime.now())
                 .registerDate(LocalDateTime.now())
                 .build();
@@ -81,15 +80,22 @@ public class UserService {
 
     public UserDto approve(String id) {
         var user = userRepository.findById(id).orElseThrow();
+        var planPrice = pricePlanRepository.findById(user.getPricePlan()).orElseThrow();
         user.setStatus(UserStatus.INUSE);
         user.setUpdatedDate(LocalDateTime.now());
-        user.setStartDateUseService(LocalDateTime.now());
+        LocalDateTime startDate = LocalDateTime.now();
+        user.setStartDateUseService(startDate);
+        user.setEndDateUseService(startDate.plusYears(planPrice.getTimeWithYears()));
+        user.setPrice(planPrice.getPrice());
+        user.setUpdatedDate(LocalDateTime.now());
         userRepository.save(user);
         return UserDto.builder()
                 .presenter(user.getPresenter())
                 .companyName(user.getCompanyName())
                 .taxCode(user.getTaxCode())
                 .status(user.getStatus())
+                .startDateUseService(startDate)
+                .endDateUseService(user.getEndDateUseService())
                 .build();
     }
 

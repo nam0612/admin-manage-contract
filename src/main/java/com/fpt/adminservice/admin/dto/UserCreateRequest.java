@@ -16,4 +16,5 @@ public class UserCreateRequest {
     private String phone;
     private String email;
     private String avatar;
+    private String planpriceId;
 }
