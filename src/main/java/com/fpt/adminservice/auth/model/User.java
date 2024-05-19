@@ -50,7 +50,7 @@ public class User implements UserDetails {
 
     private LocalDateTime registerDate;
 
-    private Double price;
+    private double price;
 
     private String pricePlan;
 

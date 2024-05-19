@@ -46,6 +46,7 @@ public class UserService {
                 .email(userCreateRequest.getEmail())
                 .phone(userCreateRequest.getPhone())
                 .status(UserStatus.PROCESSING)
+                .price(0)
                 .createdDate(LocalDateTime.now())
                 .registerDate(LocalDateTime.now())
                 .build();
@@ -97,6 +98,9 @@ public class UserService {
         var pricePlan = pricePlanRepository.findById(pricePlanId).orElseThrow();
 
         user.setPrice(user.getPrice() + pricePlan.getPrice());
+        if (user.getEndDateUseService() == null) {
+            user.setEndDateUseService(LocalDateTime.now());
+        }
         user.setEndDateUseService(user.getEndDateUseService().plusYears(pricePlan.getTimeWithYears()));
         user.setUpdatedDate(LocalDateTime.now());
         userRepository.save(user);

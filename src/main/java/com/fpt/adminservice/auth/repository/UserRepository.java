@@ -16,6 +16,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByEmail(String email);
     Optional<User> findById(String id);
+    Optional<User> findByIdAndStatus(String id, UserStatus status);
     Page<User> findByStatus(UserStatus status, Pageable pageable);
     @Query(value = """
         SELECT u.id,u.company_name as companyName, u.tax_code as taxCode, u.created_date as createDate, u.end_date_use_service as endDateUseService, u.start_date_use_service as startDateUseService, 
