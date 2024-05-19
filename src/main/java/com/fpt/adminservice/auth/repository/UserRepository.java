@@ -24,7 +24,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
                            JOIN price_plan pp ON u.price_plan = pp.id where
                            (lower(u.company_name) like lower(:name) or :name is null)
                            and u.status = :status
-                           and (u.start_date_use_service >= :fromDate between u.start_date_use_service <= :toDate)
+                           and (u.start_date_use_service >= :fromDate or  :fromDate is null)
+                           and (u.start_date_use_service <= :toDate or :toDate is null)
             """
             , nativeQuery = true)
     Page<UserInterface> search(@Param("name") String name,
