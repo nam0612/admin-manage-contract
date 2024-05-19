@@ -21,7 +21,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
         SELECT u.id,u.company_name as companyName, u.tax_code as taxCode, u.created_date as createDate, u.end_date_use_service as endDateUseService, u.start_date_use_service as startDateUseService, 
             u.register_date, u.price, u.status, pp.name as planName, pp.id as planId
                            FROM users u
-                           JOIN price_plan pp ON u.price_plan = pp.id where
+                           LEFT JOIN price_plan pp ON u.price_plan = pp.id where
                            (lower(u.company_name) like lower(:name) or :name is null)
                            and u.status = :status
                            and (u.start_date_use_service >= :fromDate or  :fromDate is null)
