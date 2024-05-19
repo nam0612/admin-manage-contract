@@ -56,26 +56,26 @@ public class UserService {
                 .build();
     }
 
-    public Page<UserDto> getUsers(Pageable pageable, UserStatus userStatus, String name, LocalDateTime fromDate, LocalDateTime toDate) {
-        Page<UserInterface> user = userRepository.search(QueryUtils.appendPercent(name), String.valueOf(userStatus), fromDate, toDate, pageable);
-        if(user.isEmpty()) {
-            return Page.empty();
-        }
-        List<UserDto> userDtos = user.stream().map(item -> UserDto.builder()
-                .id(item.getId())
-                .companyName(item.getCompanyName())
-                .taxCode(item.getTaxCode())
-                .status(item.getStatus())
-                .price(item.getPrice())
-                .createdDate(item.getCreatedDate())
-                .endDateUseService(item.getEndDateUseService())
-                .registerDate(item.getRegisterDate())
-                .pricePlanId(item.getPlanId())
-                .updatedDate(item.getUpdatedDate())
-                .pricePlanName(item.getPlanName())
-                .startDateUseService(item.getStartDateUseService())
-                .build() ).toList();
-        return new PageImpl<>(userDtos, pageable, userDtos.size());
+    public Page<UserInterface> getUsers(Pageable pageable, String userStatus, String name, LocalDateTime fromDate, LocalDateTime toDate) {
+        return userRepository.search(QueryUtils.appendPercent(name), QueryUtils.appendPercent(userStatus), fromDate, toDate, pageable);
+//        if(user.isEmpty()) {
+//            return Page.empty();
+//        }
+//        List<UserDto> userDtos = user.stream().map(item -> UserDto.builder()
+//                .id(item.getId())
+//                .companyName(item.getCompanyName())
+//                .taxCode(item.getTaxCode())
+//                .status(item.getStatus())
+//                .price(item.getPrice())
+//                .createdDate(item.getCreatedDate())
+//                .endDateUseService(item.getEndDateUseService())
+//                .registerDate(item.getRegisterDate())
+//                .pricePlanId(item.getPlanId())
+//                .updatedDate(item.getUpdatedDate())
+//                .pricePlanName(item.getPlanName())
+//                .startDateUseService(item.getStartDateUseService())
+//                .build() ).toList();
+//        return new PageImpl<>(userDtos, pageable, userDtos.size());
     }
 
     public UserDto approve(String id) {

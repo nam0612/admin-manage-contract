@@ -1,6 +1,7 @@
 package com.fpt.adminservice.admin.controller;
 
 import com.fpt.adminservice.admin.dto.UserDto;
+import com.fpt.adminservice.admin.dto.UserInterface;
 import com.fpt.adminservice.admin.model.UserStatus;
 import com.fpt.adminservice.admin.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +25,8 @@ public class ManagerCompanyController {
     private final UserService userService;
 
     @GetMapping()
-    public ResponseEntity<Page<UserDto>> getAllUsers(
-            @RequestParam(name = "status", required = false) UserStatus status,
+    public ResponseEntity<Page<UserInterface>> getAllUsers(
+            @RequestParam(name = "status", required = false) String status,
             @RequestParam(name = "fromDate", required = false) LocalDateTime fromDate,
             @RequestParam(name = "startDate", required = false) LocalDateTime startDate,
             @RequestParam(name = "name", required = false) String name,
