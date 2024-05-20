@@ -20,7 +20,7 @@ public class CloudinaryServiceImpl implements CloudinaryService {
   @Override
   public String uploadImage(MultipartFile file) throws IOException {
     Map options = ObjectUtils.asMap("public_id", "IMAGE_" + UUID.randomUUID());
-    Map result = cloudinary.uploader().upload(file, options);
+    Map result = cloudinary.uploader().upload(file.getBytes(), options);
     return (String) result.get("url");
   }
 
