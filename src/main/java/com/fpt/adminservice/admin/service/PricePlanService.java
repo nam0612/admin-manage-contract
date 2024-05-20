@@ -36,7 +36,7 @@ public class PricePlanService {
         pricePlan.setDescription(dto.getDescription());
         pricePlan.setName(dto.getName());
         pricePlan.setUpdatedDate(LocalDateTime.now());
-        pricePlan.setTimeWithYears(pricePlan.getTimeWithYears());
+        pricePlan.setTimeWithYears(dto.getTimeWithYears());
         pricePlanRepository.save(pricePlan);
         return PricePlanDto.builder()
                 .name(pricePlan.getName())
