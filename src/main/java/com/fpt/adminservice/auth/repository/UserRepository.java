@@ -2,7 +2,7 @@ package com.fpt.adminservice.auth.repository;
 
 import com.fpt.adminservice.admin.dto.UserInterface;
 import com.fpt.adminservice.auth.model.User;
-import com.fpt.adminservice.admin.model.UserStatus;
+import com.fpt.adminservice.enums.UserStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

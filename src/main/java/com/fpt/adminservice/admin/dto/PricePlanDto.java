@@ -12,4 +12,7 @@ public class PricePlanDto {
     private String description;
     private Double price;
     private Integer timeWithYears;
+    private Integer discount;
+    private String createdDate;
+    private String updatedDate;
 }

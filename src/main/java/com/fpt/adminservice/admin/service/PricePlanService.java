@@ -2,7 +2,7 @@ package com.fpt.adminservice.admin.service;
 
 import com.fpt.adminservice.admin.dto.CreatePricePlanRequest;
 import com.fpt.adminservice.admin.dto.PricePlanDto;
-import com.fpt.adminservice.admin.model.PlanStatus;
+import com.fpt.adminservice.enums.PlanStatus;
 import com.fpt.adminservice.admin.model.PricePlan;
 import com.fpt.adminservice.admin.repository.PricePlanRepository;
 import jakarta.transaction.Transactional;
@@ -26,6 +26,9 @@ public class PricePlanService {
                 .name(item.getName())
                 .timeWithYears(item.getTimeWithYears())
                 .description(item.getDescription())
+                .discount(item.getDiscount())
+                .createdDate(item.getCreatedDate().toString())
+                .updatedDate(item.getUpdatedDate().toString())
                 .build()).toList();
     }
 

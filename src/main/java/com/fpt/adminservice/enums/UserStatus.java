@@ -1,4 +1,4 @@
-package com.fpt.adminservice.admin.model;
+package com.fpt.adminservice.enums;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;

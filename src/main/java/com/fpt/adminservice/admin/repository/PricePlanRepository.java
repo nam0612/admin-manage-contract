@@ -1,7 +1,7 @@
 package com.fpt.adminservice.admin.repository;
 
 
-import com.fpt.adminservice.admin.model.PlanStatus;
+import com.fpt.adminservice.enums.PlanStatus;
 import com.fpt.adminservice.admin.model.PricePlan;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

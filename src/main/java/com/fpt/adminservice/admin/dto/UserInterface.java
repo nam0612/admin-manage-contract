@@ -1,6 +1,6 @@
 package com.fpt.adminservice.admin.dto;
 
-import com.fpt.adminservice.admin.model.UserStatus;
+import com.fpt.adminservice.enums.UserStatus;
 
 import java.time.LocalDateTime;
 

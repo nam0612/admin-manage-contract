@@ -1,4 +1,4 @@
-package com.fpt.adminservice.admin.model;
+package com.fpt.adminservice.enums;
 
 public enum PlanStatus {
     ACTIVE,

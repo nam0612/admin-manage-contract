@@ -2,7 +2,6 @@ package com.fpt.adminservice.admin.controller;
 
 import com.fpt.adminservice.admin.dto.UserDto;
 import com.fpt.adminservice.admin.dto.UserInterface;
-import com.fpt.adminservice.admin.model.UserStatus;
 import com.fpt.adminservice.admin.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,10 +42,10 @@ public class ManagerCompanyController {
         return ResponseEntity.ok(userService.delete(id));
     }
 
-    @PatchMapping("/{id}/{pricePlan}")
-    public ResponseEntity<UserDto> extend(@PathVariable("id") String id, @PathVariable("pricePlan") String pricePlan) {
-        return ResponseEntity.ok(userService.extendService(id, pricePlan));
-    }
+//    @PatchMapping("/{id}/{pricePlan}")
+//    public ResponseEntity<UserDto> extend(@PathVariable("id") String id, @PathVariable("pricePlan") String pricePlan) {
+//        return ResponseEntity.ok(userService.extendService(id, pricePlan));
+//    }
 
     @PutMapping("/uploadContract")
     public ResponseEntity<UserDto> uploadContract(
@@ -60,4 +58,6 @@ public class ManagerCompanyController {
 
         return ResponseEntity.ok(userService.uploadContract(file, id));
     }
+
+
 }

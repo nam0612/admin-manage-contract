@@ -1,20 +1,19 @@
 package com.fpt.adminservice.admin.model;
 
+import com.fpt.adminservice.enums.PlanStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "price_plan")
-@Data
+@Getter
+@Setter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class PricePlan {
     @Id
     @UuidGenerator
@@ -29,6 +28,8 @@ public class PricePlan {
     @Enumerated(EnumType.STRING)
     private PlanStatus status;
 
-    private LocalDateTime CreatedDate;
-    private LocalDateTime UpdatedDate;
+    private Integer discount;
+
+    private LocalDateTime createdDate;
+    private LocalDateTime updatedDate;
 }

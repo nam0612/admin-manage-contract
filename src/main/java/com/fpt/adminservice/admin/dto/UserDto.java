@@ -1,6 +1,6 @@
 package com.fpt.adminservice.admin.dto;
 
-import com.fpt.adminservice.admin.model.UserStatus;
+import com.fpt.adminservice.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

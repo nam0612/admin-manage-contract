@@ -6,8 +6,9 @@ import com.fpt.adminservice.admin.dto.UserCreateRequest;
 import com.fpt.adminservice.admin.dto.UserDto;
 import com.fpt.adminservice.admin.dto.UserInterface;
 import com.fpt.adminservice.auth.model.User;
-import com.fpt.adminservice.admin.model.UserStatus;
+import com.fpt.adminservice.enums.UserStatus;
 import com.fpt.adminservice.auth.repository.UserRepository;
+import com.fpt.adminservice.utils.BaseResponse;
 import com.fpt.adminservice.utils.QueryUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -107,7 +108,12 @@ public class UserService {
         if (user.getEndDateUseService() == null) {
             user.setEndDateUseService(LocalDateTime.now());
         }
-        user.setEndDateUseService(user.getEndDateUseService().plusYears(pricePlan.getTimeWithYears()));
+        if(user.getStatus() == UserStatus.LOCKED || user.getStatus() == UserStatus.PROCESSING) {
+            user.setStatus(UserStatus.INUSE);
+        }
+        int year
+        = pricePlan.getTimeWithYears();
+        user.setEndDateUseService(user.getEndDateUseService().plusYears(year));
         user.setUpdatedDate(LocalDateTime.now());
         userRepository.save(user);
 
