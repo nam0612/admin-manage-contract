@@ -29,4 +29,5 @@ public class UserDto {
     private String pricePlanId;
     private String pricePlanName;
     private String avatar;
+    private String file;
 }

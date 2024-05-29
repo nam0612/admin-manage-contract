@@ -211,6 +211,7 @@ public class UserService {
                 .pricePlanId(user.getPricePlan())
                 .createdDate(LocalDateTime.now())
                 .registerDate(LocalDateTime.now())
+                .file(user.getFile())
                 .build());
     }
 
