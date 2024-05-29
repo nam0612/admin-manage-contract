@@ -209,8 +209,8 @@ public class UserService {
                 .status(user.getStatus())
                 .price(user.getPrice())
                 .pricePlanId(user.getPricePlan())
-                .createdDate(LocalDateTime.now())
-                .registerDate(LocalDateTime.now())
+                .createdDate(user.getCreatedDate())
+                .registerDate(user.getRegisterDate())
                 .file(user.getFile())
                 .build());
     }
