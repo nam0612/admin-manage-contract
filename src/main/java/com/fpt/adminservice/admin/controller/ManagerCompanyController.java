@@ -2,6 +2,7 @@ package com.fpt.adminservice.admin.controller;
 
 import com.fpt.adminservice.admin.dto.UserDto;
 import com.fpt.adminservice.admin.dto.UserInterface;
+import com.fpt.adminservice.admin.dto.VerifyEmailCodeRequest;
 import com.fpt.adminservice.admin.service.UserService;
 import com.fpt.adminservice.utils.BaseResponse;
 import lombok.RequiredArgsConstructor;
@@ -60,8 +61,13 @@ public class ManagerCompanyController {
     }
 
     @GetMapping("/{email}")
-    public BaseResponse getContractByEmail(@PathVariable String email) {
+    public BaseResponse getAuthenCodeByEmail(@PathVariable String email) {
         return userService.AuthenticationMailWithCode(email);
+    }
+
+    @PostMapping("/get-contract")
+    public BaseResponse getContract(@RequestBody VerifyEmailCodeRequest verifyEmailCodeRequest) {
+        return userService.GetCompanyContract(verifyEmailCodeRequest.getEmail(), verifyEmailCodeRequest.getCode());
     }
 
 

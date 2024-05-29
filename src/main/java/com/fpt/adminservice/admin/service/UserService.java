@@ -1,6 +1,8 @@
 package com.fpt.adminservice.admin.service;
 
 
+import com.fpt.adminservice.admin.model.MailAuthedCode;
+import com.fpt.adminservice.admin.repository.MailAuthenCodeRepository;
 import com.fpt.adminservice.admin.repository.PricePlanRepository;
 import com.fpt.adminservice.admin.dto.UserCreateRequest;
 import com.fpt.adminservice.admin.dto.UserDto;
@@ -21,6 +23,8 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +33,7 @@ public class UserService {
     private final PricePlanRepository pricePlanRepository;
     private final CloudinaryService cloudinaryService;
     private final MailService mailService;
+    private final MailAuthenCodeRepository mailAuthenCodeRepository;
 
     public String delete(String id) {
         var user = userRepository.findById(id).orElseThrow();
@@ -155,12 +160,58 @@ public class UserService {
         if (user.isEmpty()) {
             return new BaseResponse(Constants.ResponseCode.SUCCESS, "user not found", true, null);
         }
+        int code = new Random().nextInt(999999);
+        var mailCode = mailAuthenCodeRepository.findByEmail(email);
+        if (mailCode.isEmpty()) {
+            LocalDateTime startTime = LocalDateTime.now();
+            MailAuthedCode mailAuthedCode = MailAuthedCode.builder()
+                    .email(email)
+                    .code(code)
+                    .expiryTime(startTime.plusMinutes(5))
+                    .startTime(startTime)
+                    .build();
+            mailAuthenCodeRepository.save(mailAuthedCode);
+        } else {
+            mailCode.get().setCode(code);
+            mailAuthenCodeRepository.save(mailCode.get());
+        }
+
         try {
-            mailService.sendNewMail(emailList, null, "OTP CODE", "", null);
+            mailService.sendNewMail(emailList, null, "OTP CODE", "<h1>" + code + "</h1>", null);
         } catch (MessagingException e) {
             return new BaseResponse(Constants.ResponseCode.FAILURE, e.getMessage(), false, null);
         }
         return new BaseResponse(Constants.ResponseCode.SUCCESS, "found user", true, null);
+    }
+
+    public BaseResponse GetCompanyContract(String email, Integer AuthenCode) {
+        var company = userRepository.findByEmail(email);
+        var mailAuthedCode = mailAuthenCodeRepository.findByEmail(email);
+
+        if(mailAuthedCode.isEmpty() || company.isEmpty()) {
+            return new BaseResponse(Constants.ResponseCode.FAILURE, "User not exist", true, null);
+        }
+
+        if(!Objects.equals(mailAuthedCode.get().getCode(), AuthenCode)) {
+            return new BaseResponse(Constants.ResponseCode.FAILURE, "Your code is invalid", true, null);
+        }
+        if((mailAuthedCode.get().getExpiryTime().isBefore(LocalDateTime.now()))) {
+            return new BaseResponse(Constants.ResponseCode.FAILURE, "Your code is expired", true, null);
+        }
+        User user = company.get();
+        return new BaseResponse(Constants.ResponseCode.SUCCESS, "found user", true, UserDto.builder()
+                .id(user.getId())
+                .taxCode(user.getTaxCode())
+                .companyName(user.getCompanyName())
+                .presenter(user.getPresenter())
+                .email(user.getEmail())
+                .phone(user.getPhone())
+                .status(user.getStatus())
+                .price(user.getPrice())
+                .pricePlanId(user.getPricePlan())
+                .createdDate(LocalDateTime.now())
+                .registerDate(LocalDateTime.now())
+                .build());
     }
 
 
