@@ -19,7 +19,7 @@ public interface QueueExtendRepository extends JpaRepository<QueueExtend, String
                  where 1=1
                  and (qe.status = :status or :status is null)
     """, nativeQuery = true)
-    public Page<QueueExtend> getAll(
+    Page<QueueExtend> getAll(
             @Param("status") String status,
             Pageable pageable
     );

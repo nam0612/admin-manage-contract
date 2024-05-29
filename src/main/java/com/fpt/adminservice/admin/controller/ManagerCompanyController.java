@@ -3,6 +3,7 @@ package com.fpt.adminservice.admin.controller;
 import com.fpt.adminservice.admin.dto.UserDto;
 import com.fpt.adminservice.admin.dto.UserInterface;
 import com.fpt.adminservice.admin.service.UserService;
+import com.fpt.adminservice.utils.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -55,8 +56,12 @@ public class ManagerCompanyController {
         if (file == null) {
             return ResponseEntity.badRequest().build();
         }
-
         return ResponseEntity.ok(userService.uploadContract(file, id));
+    }
+
+    @GetMapping("/{email}")
+    public BaseResponse getContractByEmail(@PathVariable String email) {
+        return userService.AuthenticationMailWithCode(email);
     }
 
 

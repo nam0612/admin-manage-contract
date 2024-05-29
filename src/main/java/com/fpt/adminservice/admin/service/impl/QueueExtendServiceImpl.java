@@ -46,8 +46,9 @@ public class QueueExtendServiceImpl implements QueueExtendService {
                         .pricePlanId(item.getPricePlanId())
                         .pricePlanName(item.getPricePlanName())
                         .companyId(item.getCompanyId())
-                        .createdDate(item.getCreatedDate().toString())
-                        .updatedDate(item.getUpdatedDate().toString())
+                        .status(item.getStatus().getQueueExtendStatus())
+                        .createdDate(String.valueOf(item.getCreatedDate()))
+                        .updatedDate(String.valueOf(item.getUpdatedDate()))
                         .build()
                 )
                 .toList();

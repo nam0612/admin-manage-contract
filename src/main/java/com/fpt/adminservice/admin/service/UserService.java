@@ -6,10 +6,13 @@ import com.fpt.adminservice.admin.dto.UserCreateRequest;
 import com.fpt.adminservice.admin.dto.UserDto;
 import com.fpt.adminservice.admin.dto.UserInterface;
 import com.fpt.adminservice.auth.model.User;
+import com.fpt.adminservice.config.MailService;
 import com.fpt.adminservice.enums.UserStatus;
 import com.fpt.adminservice.auth.repository.UserRepository;
 import com.fpt.adminservice.utils.BaseResponse;
+import com.fpt.adminservice.utils.Constants;
 import com.fpt.adminservice.utils.QueryUtils;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +28,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PricePlanRepository pricePlanRepository;
     private final CloudinaryService cloudinaryService;
+    private final MailService mailService;
 
     public String delete(String id) {
         var user = userRepository.findById(id).orElseThrow();
@@ -145,6 +149,19 @@ public class UserService {
 
     }
 
+    public BaseResponse AuthenticationMailWithCode(String email) {
+        var user = userRepository.findByEmail(email);
+        String[] emailList = new String[]{email};
+        if (user.isEmpty()) {
+            return new BaseResponse(Constants.ResponseCode.SUCCESS, "user not found", true, null);
+        }
+        try {
+            mailService.sendNewMail(emailList, null, "OTP CODE", "", null);
+        } catch (MessagingException e) {
+            return new BaseResponse(Constants.ResponseCode.FAILURE, e.getMessage(), false, null);
+        }
+        return new BaseResponse(Constants.ResponseCode.SUCCESS, "found user", true, null);
+    }
 
 
 }
