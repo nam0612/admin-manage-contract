@@ -173,6 +173,10 @@ public class UserService {
             mailAuthenCodeRepository.save(mailAuthedCode);
         } else {
             mailCode.get().setCode(code);
+            LocalDateTime startTime = LocalDateTime.now();
+            LocalDateTime expiryTime = startTime.plusMinutes(5);
+            mailCode.get().setStartTime(startTime);
+            mailCode.get().setExpiryTime(expiryTime);
             mailAuthenCodeRepository.save(mailCode.get());
         }
 
