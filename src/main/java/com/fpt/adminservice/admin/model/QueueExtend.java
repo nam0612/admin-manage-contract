@@ -1,5 +1,6 @@
 package com.fpt.adminservice.admin.model;
 
+import com.fpt.adminservice.enums.PaymentStatus;
 import com.fpt.adminservice.enums.QueueExtendStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,6 +33,12 @@ public class QueueExtend {
 
     @Enumerated(EnumType.STRING)
     private QueueExtendStatus status;
+
+    @Column(nullable = false)
+    private Float price;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus;
 
     private Date createdDate;
 

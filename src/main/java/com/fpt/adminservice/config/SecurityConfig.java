@@ -29,7 +29,7 @@ public class SecurityConfig {
         .authorizeHttpRequests(req -> req.requestMatchers("/public/**").permitAll()
             .requestMatchers("/swagger-ui/**").permitAll()
             .requestMatchers("/api-docs/**").permitAll()
-                .requestMatchers("/manager/**").permitAll()
+                .requestMatchers("/payment/**").permitAll()
 //            .requestMatchers("/manager/**").hasAnyRole(ADMIN.name(), MANAGER.name())
             .anyRequest().authenticated()).sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
 
