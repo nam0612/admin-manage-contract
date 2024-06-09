@@ -66,7 +66,7 @@ public class UserService {
                 .build();
     }
 
-    public Page<UserInterface> nkmgetUsers(Pageable pageable, String userStatus, String name, LocalDateTime fromDate, LocalDateTime toDate) {
+    public Page<UserInterface> getUsers(Pageable pageable, String userStatus, String name, LocalDateTime fromDate, LocalDateTime toDate) {
         return userRepository.search(QueryUtils.appendPercent(name), QueryUtils.appendPercent(userStatus), fromDate, toDate, pageable);
 //        if(user.isEmpty()) {
 //            return Page.empty();
