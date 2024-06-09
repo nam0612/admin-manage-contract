@@ -31,7 +31,7 @@ public class QueueExtendController {
 
     @PutMapping
     public BaseResponse approve(@RequestBody QueueExtendCreate queueExtend){
-        return queueExtendService.approve(queueExtend.getCompanyId(), queueExtend.getPricePlanId());
+        return queueExtendService.approve(queueExtend.getCompanyId(), queueExtend.getPricePlanId(), queueExtend.isPayed());
     }
 
 }

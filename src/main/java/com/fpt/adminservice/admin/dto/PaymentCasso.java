@@ -8,7 +8,7 @@ import lombok.Setter;
 public class PaymentCasso {
     public Integer Id;
     public String When;
-    public Integer Amount;
+    public Double Amount;
     public String Description;
     public int CusumBalance;
     public String Tid;

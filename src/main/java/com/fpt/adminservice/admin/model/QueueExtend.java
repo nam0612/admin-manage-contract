@@ -43,4 +43,8 @@ public class QueueExtend {
     private LocalDateTime createdDate;
 
     private LocalDateTime updatedDate;
+
+    private boolean isPayed;
+
+    private Double refund;
 }

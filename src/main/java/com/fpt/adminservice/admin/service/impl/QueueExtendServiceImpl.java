@@ -58,13 +58,16 @@ public class QueueExtendServiceImpl implements QueueExtendService {
     }
 
     @Override
-    public BaseResponse approve(String userId, String pricePlanId) {
+    public BaseResponse approve(String userId, String pricePlanId, boolean isPayed) {
         var queueExtend = queueExtendRepository.findByCompanyIdAndAndPricePlanId(userId, pricePlanId);
 
         if (queueExtend.isEmpty()) {
             return new BaseResponse(Constants.ResponseCode.SUCCESS, "Request extend not exist", true, null);
         }
 
+        if(!isPayed) {
+            return new BaseResponse(Constants.ResponseCode.SUCCESS, "Payment need complete before extend", true, null);
+        }
 
         var userDto = userService.extendService(userId, pricePlanId);
         if (userDto == null) {
@@ -101,7 +104,9 @@ public class QueueExtendServiceImpl implements QueueExtendService {
         queueExtend.setStatus(QueueExtendStatus.PROCESSING);
 
         queueExtendRepository.save(queueExtend);
-        return new BaseResponse(Constants.ResponseCode.SUCCESS, "Create Successfully", true, null);
+        return new BaseResponse(Constants.ResponseCode.SUCCESS, "Create Successfully", true, QueueExtendDto.builder()
+                .id(queueExtend.getId())
+                .build());
     }
 
 }

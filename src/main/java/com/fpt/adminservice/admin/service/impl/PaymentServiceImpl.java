@@ -4,10 +4,15 @@ package com.fpt.adminservice.admin.service.impl;
 import com.fpt.adminservice.admin.dto.PaymentCasso;
 import com.fpt.adminservice.admin.dto.QRDataDto;
 import com.fpt.adminservice.admin.dto.RequestQrDto;
+import com.fpt.adminservice.admin.model.QueueExtend;
+import com.fpt.adminservice.admin.repository.QueueExtendRepository;
 import com.fpt.adminservice.admin.service.PaymentService;
+import com.fpt.adminservice.admin.service.QueueExtendService;
+import com.fpt.adminservice.enums.PaymentStatus;
 import com.fpt.adminservice.utils.BaseResponse;
 import com.fpt.adminservice.utils.Constants;
 import com.fpt.adminservice.utils.DataUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -20,9 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
-    @Autowired
-    private RestTemplate restTemplate;
+
+    private final RestTemplate restTemplate;
+    private final QueueExtendRepository queueExtendRepository;
+    private final QueueExtendService queueExtendService;
 
     @Override
     public BaseResponse FindById(String id) {
@@ -31,9 +39,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public BaseResponse HandlePayment(List<PaymentCasso> paymentCasso) {
-        if (paymentCasso == null) { return null; }
-
-//        List<PaymentDto> paymentDTOs = new List<PaymentDto>();
+        if (DataUtil.isArrayNullOrEmpty(paymentCasso)) {
+            return new BaseResponse(Constants.ResponseCode.SUCCESS, "Payment is not existed", true, null);
+        }
 
         List<Object[]> errorPayment = new ArrayList<>();
         for (PaymentCasso payment : paymentCasso) {
@@ -48,42 +56,33 @@ public class PaymentServiceImpl implements PaymentService {
             String[] destrip = payment.Description.split(" ");
             int indexIdOrder = -1;
             for (int j = 0; j < destrip.length; j++) {
-                if (destrip[j].contains("ECOMMERCE")) {
+                if (destrip[j].contains("TDOCMAN")) {
                     indexIdOrder = j;
                 }
             }
-            String OrderId = destrip[indexIdOrder + 1];
+            String orderId = destrip[indexIdOrder + 1];
 
-//            OrderDto order = _orderService.GetOrder(OrderId);
-//            Payments payments = _paymentRepository.FindByOrderId(OrderId);
-//            if (payments != null && order != null)
-//            {
-//                if (payment.Amount == order.OrderTotal)
-//                {
-//                    payments.paymentStatus = PaymentStatus.COMPLETED;
-//                }
-//                else if (payment.Amount < order.OrderTotal)
-//                {
-//                    payments.refund = payment.Amount;
-//                    payments.paymentStatus = PaymentStatus.REFUND;
-//                }
-//                else if (payment.Amount > order.OrderTotal)
-//                {
-//                    decimal refund = payment.Amount - order.OrderTotal;
-//                    payments.refund = refund;
-//                    payments.paymentStatus = PaymentStatus.COMPLETED;
-//                }
-//                _paymentRepository.Update(payments);
-//                paymentDTOs.Add(new PaymentDto
-//                {
-//                    id = payments.id,
-//                            orderId = payments.orderId,
-//                            paymentStatus = payments.paymentStatus,
-//                            refund = payments.refund,
-//                });
-//                _paymentRepository.Save();
-//            }
-//        }
+            var queueExtendbject = queueExtendRepository.findById(orderId);
+
+            if (queueExtendbject.isEmpty()) {
+                return new BaseResponse(Constants.ResponseCode.FAILURE, "Payment is not exist", true, null);
+            }
+
+            QueueExtend queueExtend = queueExtendbject.get();
+
+            if(queueExtend.getPrice() == payment.getAmount()) {
+                queueExtend.setPaymentStatus(PaymentStatus.COMPLETED);
+                queueExtendService.approve(queueExtend.getCompanyId(), queueExtend.getPricePlanId(), true);
+            } else if (queueExtend.getPrice() < payment.getAmount()) {
+                queueExtend.setPaymentStatus(PaymentStatus.COMPLETED);
+                queueExtend.setRefund(payment.getAmount() - queueExtend.getPrice());
+                queueExtendService.approve(queueExtend.getCompanyId(), queueExtend.getPricePlanId(), true);
+            } else if (queueExtend.getPrice() > payment.getAmount()) {
+                queueExtend.setPaymentStatus(PaymentStatus.COMPLETED);
+                queueExtend.setRefund(payment.getAmount());
+            }
+
+            queueExtendRepository.save(queueExtend);
         }
         return new BaseResponse(Constants.ResponseCode.FAILURE, "Upload Contract Failed", true, null);
     }
@@ -101,7 +100,7 @@ public class PaymentServiceImpl implements PaymentService {
                     .accountNo("9909090111")
                     .accountName("NGUYEN HAI NAM")
                     .acqId("970422")
-                    .addInfo("ECOMMERCE " + orderId)
+                    .addInfo("TDOCMAN " + orderId)
                     .amount(amount)
                     .template("print")
                     .build();
@@ -118,7 +117,6 @@ public class PaymentServiceImpl implements PaymentService {
             {
                 return new BaseResponse(Constants.ResponseCode.FAILURE, "Generate QR Failed", true, null);
             }
-
             return new BaseResponse(Constants.ResponseCode.SUCCESS, "Generate QR Success", true, response.getBody());
         }
         catch (Exception ex)

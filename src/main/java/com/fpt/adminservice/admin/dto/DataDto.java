@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @Builder
 public class DataDto {
-    private String QrCode;
-    private String QrDataUrl;
+    private String qrCode;
+    private String qrDataURL;
 }

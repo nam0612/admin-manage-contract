@@ -6,6 +6,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface QueueExtendService {
     BaseResponse getAll(Pageable pageable, String status);
-    BaseResponse approve(String userId, String pricePlanId);
+    BaseResponse approve(String userId, String pricePlanId, boolean isPayed);
     BaseResponse create(QueueExtendCreate queueExtendCreate);
 }
