@@ -93,10 +93,11 @@ public class QueueExtendServiceImpl implements QueueExtendService {
 
         queueExtend.setPricePlanId(pricePlan.get().getId());
         queueExtend.setPricePlanName(pricePlan.get().getName());
+        queueExtend.setPrice(pricePlan.get().getPrice());
 
 
         queueExtend.setTaxCode(company.get().getTaxCode());
-        queueExtend.setCreatedDate(new Date());
+        queueExtend.setCreatedDate(LocalDateTime.now());
         queueExtend.setStatus(QueueExtendStatus.PROCESSING);
 
         queueExtendRepository.save(queueExtend);

@@ -35,12 +35,12 @@ public class QueueExtend {
     private QueueExtendStatus status;
 
     @Column(nullable = false)
-    private Float price;
+    private Double price;
 
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
-    private Date updatedDate;
+    private LocalDateTime updatedDate;
 }

@@ -60,15 +60,7 @@ public class ManagerCompanyController {
         return ResponseEntity.ok(userService.uploadContract(file, id));
     }
 
-    @GetMapping("/{email}")
-    public BaseResponse getAuthenCodeByEmail(@PathVariable String email) {
-        return userService.AuthenticationMailWithCode(email);
-    }
 
-    @PostMapping("/get-contract")
-    public BaseResponse getContract(@RequestBody VerifyEmailCodeRequest verifyEmailCodeRequest) {
-        return userService.GetCompanyContract(verifyEmailCodeRequest.getEmail(), verifyEmailCodeRequest.getCode());
-    }
 
 
 }

@@ -27,12 +27,11 @@ public class PricePlanService {
                 .timeWithYears(item.getTimeWithYears())
                 .description(item.getDescription())
                 .discount(item.getDiscount())
-                .createdDate(item.getCreatedDate().toString())
-                .updatedDate(item.getUpdatedDate().toString())
+                .createdDate(String.valueOf(item.getCreatedDate()))
+                .updatedDate(String.valueOf(item.getUpdatedDate()))
                 .build()).toList();
     }
 
-    @Transactional(rollbackOn = Exception.class)
     public PricePlanDto update(PricePlanDto dto, String id) {
         PricePlan pricePlan = pricePlanRepository.findById(id).orElseThrow();
         pricePlan.setPrice(dto.getPrice());
@@ -49,7 +48,6 @@ public class PricePlanService {
                 .build();
     }
 
-    @Transactional(rollbackOn = Exception.class)
     public String delete(String id) {
         PricePlan pricePlan = pricePlanRepository.findById(id).orElseThrow();
         pricePlan.setStatus(PlanStatus.INACTIVE);
@@ -58,7 +56,6 @@ public class PricePlanService {
         return "Successfully";
     }
 
-    @Transactional(rollbackOn = Exception.class)
     public PricePlanDto create(CreatePricePlanRequest dto) {
         if(dto == null) {
             return null;
