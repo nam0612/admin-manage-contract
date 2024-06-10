@@ -9,7 +9,7 @@ import java.util.List;
 public interface PaymentService {
 //    BaseResponse UpsertPayment(PaymentDto paymentDto);
     BaseResponse FindById(String id);
-    BaseResponse HandlePayment(List<PaymentCasso> payment);
+    BaseResponse HandlePayment(String secureToken, List<PaymentCasso> payment);
     BaseResponse GetPayments();
     BaseResponse GenerateQR(String orderId, float amount);
 }

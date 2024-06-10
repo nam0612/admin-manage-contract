@@ -13,7 +13,6 @@ import com.fpt.adminservice.utils.BaseResponse;
 import com.fpt.adminservice.utils.Constants;
 import com.fpt.adminservice.utils.DataUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -28,6 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
 
+    private final String tokenSecure = "";
     private final RestTemplate restTemplate;
     private final QueueExtendRepository queueExtendRepository;
     private final QueueExtendService queueExtendService;
@@ -38,13 +38,22 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public BaseResponse HandlePayment(List<PaymentCasso> paymentCasso) {
+    public BaseResponse HandlePayment(String secureToken, List<PaymentCasso> paymentCasso) {
+//        if (!tokenSecure.equals(secureToken)) {
+//            return new BaseResponse(Constants.ResponseCode.SUCCESS, "Payment is not existed", true, null);
+//        }
         if (DataUtil.isArrayNullOrEmpty(paymentCasso)) {
             return new BaseResponse(Constants.ResponseCode.SUCCESS, "Payment is not existed", true, null);
         }
 
         List<Object[]> errorPayment = new ArrayList<>();
         for (PaymentCasso payment : paymentCasso) {
+            var queueExtendObject = queueExtendRepository.findByPaymentId(payment.getId());
+            if(queueExtendObject.isPresent()){
+                if(queueExtendObject.get().getPaymentStatus() == PaymentStatus.COMPLETED) {
+                    break;
+                }
+            }
             if (DataUtil.isNullOrEmpty(payment.Description)) {
                 Object[] error = new Object[3];
                 error[0] = payment.Id;
