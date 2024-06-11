@@ -44,10 +44,6 @@ public class ManagerCompanyController {
         return ResponseEntity.ok(userService.delete(id));
     }
 
-//    @PatchMapping("/{id}/{pricePlan}")
-//    public ResponseEntity<UserDto> extend(@PathVariable("id") String id, @PathVariable("pricePlan") String pricePlan) {
-//        return ResponseEntity.ok(userService.extendService(id, pricePlan));
-//    }
 
     @PutMapping("/uploadContract")
     public ResponseEntity<UserDto> uploadContract(

@@ -27,7 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
 
-    private final String tokenSecure = "";
+    private final String tokenSecure = "AK_CS.65c54f10280211ef8ba097bf785e386b.0nDUlImdAtMsUL24t19RC8pvLN7hzsxiRyOLuY6kNjvKTUXiw3hbifu5KONkZOc22HRm9vCy";
     private final RestTemplate restTemplate;
     private final QueueExtendRepository queueExtendRepository;
     private final QueueExtendService queueExtendService;
@@ -39,10 +39,10 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public BaseResponse HandlePayment(String secureToken, List<PaymentCasso> paymentCasso) {
-//        if (!tokenSecure.equals(secureToken)) {
-//            return new BaseResponse(Constants.ResponseCode.SUCCESS, "Payment is not existed", true, null);
-//        }
-        if (DataUtil.isArrayNullOrEmpty(paymentCasso)) {
+        if(!secureToken.equals(tokenSecure)) {
+            return new BaseResponse(Constants.ResponseCode.FAILURE, "Payment is invalid", true, null);
+        }
+        if (DataUtil.isListNullOrEmpty(paymentCasso)) {
             return new BaseResponse(Constants.ResponseCode.SUCCESS, "Payment is not existed", true, null);
         }
 
@@ -52,6 +52,8 @@ public class PaymentServiceImpl implements PaymentService {
             if(queueExtendObject.isPresent()){
                 if(queueExtendObject.get().getPaymentStatus() == PaymentStatus.COMPLETED) {
                     break;
+                } else {
+                    queueExtendObject.get().setPaymentId(payment.getId());
                 }
             }
             if (DataUtil.isNullOrEmpty(payment.Description)) {
