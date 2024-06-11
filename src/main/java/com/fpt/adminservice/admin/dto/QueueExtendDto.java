@@ -19,4 +19,5 @@ public class QueueExtendDto {
     private String status;
     private String createdDate;
     private String updatedDate;
+    private Double amout;
 }

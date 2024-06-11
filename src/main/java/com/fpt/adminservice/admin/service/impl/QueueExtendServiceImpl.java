@@ -106,6 +106,7 @@ public class QueueExtendServiceImpl implements QueueExtendService {
         queueExtendRepository.save(queueExtend);
         return new BaseResponse(Constants.ResponseCode.SUCCESS, "Create Successfully", true, QueueExtendDto.builder()
                 .id(queueExtend.getId())
+                .amout(queueExtend.getPrice())
                 .build());
     }
 
