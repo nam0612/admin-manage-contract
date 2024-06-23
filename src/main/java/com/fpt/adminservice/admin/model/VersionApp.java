@@ -10,27 +10,17 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
-import java.io.Serializable;
-
 @Entity
-@Table(name = "TENANT_DB_LIST")
+@Table(name = "version")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
 @Setter
-public class DBTENANT implements Serializable {
-    /**
-     *
-     */
-    private static final long serialVersionUID = 6364902041896237890L;
+public class VersionApp {
     @Id
     @UuidGenerator
-    @Column(name = "DATABASE_ID")
-    private String dbId;
-    @Column(name = "DB_NAME")
-    private String dbName;
-    @Column(name = "DB_URL")
-    private String url;
-    @Column(name = "DB_PASSWORD")
-    private String dbPwd;
+    private String id;
+    @Column(unique = true)
+    private String version;
+    private String content;
 }
