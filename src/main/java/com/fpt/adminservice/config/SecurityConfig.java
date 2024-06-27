@@ -31,7 +31,7 @@ public class SecurityConfig {
             .requestMatchers("/api-docs/**").permitAll()
                 .requestMatchers("/payment/**").permitAll()
                 .requestMatchers("/manager/**").permitAll()
-
+                .requestMatchers("/version/**").permitAll()
 //            .requestMatchers("/manager/**").hasAnyRole(ADMIN.name(), MANAGER.name())
             .anyRequest().authenticated()).sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
 

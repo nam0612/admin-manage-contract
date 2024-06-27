@@ -58,6 +58,8 @@ public class User implements UserDetails {
 
     private String file;
 
+    private String version;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return new ArrayList<SimpleGrantedAuthority>();

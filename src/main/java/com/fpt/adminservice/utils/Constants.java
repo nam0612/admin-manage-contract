@@ -14,6 +14,13 @@ public interface Constants {
         final public static String REQUEST_TIMEOUT = "06";
         final public static String EXPIRED_JWT = "07";
         final public static String RESOURCE_ACCESS = "08";
+
+    }
+
+    public static interface Status {
+        final public static String ACTIVE = "ACTIVE";
+        final public static String INACTIVE = "INACTIVE";
+
     }
 
     public static interface DETAIL_DEFAULT {
