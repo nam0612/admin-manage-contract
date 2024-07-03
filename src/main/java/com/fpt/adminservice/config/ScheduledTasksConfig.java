@@ -13,6 +13,7 @@ public class ScheduledTasksConfig {
     private MailService mailService;
     @Scheduled(cron = "0 10 15 * * ?")
     public void scheduleTaskUsingCronExpression() throws MessagingException {
+        // function get email và ngày hết hạn dịch vụ check còn 7 ngày thì gửi mail cảnh báo
         String[] emailListTo = new String[]{"tuddaallt@gmail.com"};
         mailService.sendNewMail(emailListTo, null,"" , EXPIRED_PACKAGE, null);
     }
