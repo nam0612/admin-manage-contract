@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
@@ -34,4 +35,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
                                @Param("fromDate") LocalDateTime fromDate,
                                @Param("toDate") LocalDateTime toDate,
                                Pageable pageable);
+
+    @Query(value = """
+        SELECT email, end_date_use_service
+        FROM users
+        WHERE DATEDIFF(end_date_use_service, NOW()) <= 7;
+    """, nativeQuery = true)
+    List<UserInterface> getUserHaveCloseEndUseService();
 }

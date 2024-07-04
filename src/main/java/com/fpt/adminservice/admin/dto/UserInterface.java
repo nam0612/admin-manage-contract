@@ -17,4 +17,5 @@ public interface UserInterface {
     String getTaxCode();
     String getPlanId();
     String getPlanName();
+    String getEmail();
 }
