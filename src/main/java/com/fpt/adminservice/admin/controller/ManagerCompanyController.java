@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Slf4j
@@ -56,6 +57,10 @@ public class ManagerCompanyController {
         return ResponseEntity.ok(userService.uploadContract(file, id));
     }
 
+    @PostMapping("/reset-password")
+    public ResponseEntity<BaseResponse> resetPassword(@RequestParam String email) {
+        return ResponseEntity.ok(userService.resetPass(email));
+    }
 
 
 }
