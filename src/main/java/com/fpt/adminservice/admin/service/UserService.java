@@ -18,13 +18,13 @@ import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +34,7 @@ public class UserService {
     private final CloudinaryService cloudinaryService;
     private final MailService mailService;
     private final MailAuthenCodeRepository mailAuthenCodeRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public String delete(String id) {
         var user = userRepository.findById(id).orElseThrow();
@@ -219,5 +220,19 @@ public class UserService {
                 .build());
     }
 
-
+    public BaseResponse resetPass(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if(user.isEmpty()) {
+            return new BaseResponse(Constants.ResponseCode.NOT_FOUND, "user not found", true, null);
+        }
+        int passReset = new Random().nextInt(999999);
+        user.get().setPassword(passwordEncoder.encode(String.valueOf(passReset)));
+        String[] to = new String[]{email};
+        try {
+            mailService.sendNewMail(to, null, "Password Reset", "<h1>Your pass after reset: <h1>" + passReset, null);
+            return new BaseResponse(Constants.ResponseCode.SUCCESS, "Found user", true, null);
+        } catch (Exception e) {
+            return new BaseResponse(Constants.ResponseCode.FAILURE, e.getMessage(), false, null);
+        }
+    }
 }
