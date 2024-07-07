@@ -19,11 +19,11 @@ public class ScheduledTasksConfig {
     private final MailService mailService;
     private final UserRepository userRepository;
 
-//    @Scheduled(fixedRate = 5000)
-//    public void scheduleTaskUsingCronExpression() throws MessagingException {
-//        // function get email và ngày hết hạn dịch vụ check còn 7 ngày thì gửi mail cảnh báo
-//        List<UserInterface> users = userRepository.getEndUserServiceLessTime();
-//        String[] emailListTo = users.stream().map(e -> e.getEmail()).toArray(String[]::new);
-//        mailService.sendNewMail(emailListTo, null,"" , EXPIRED_PACKAGE, null);
-//    }
+    @Scheduled(cron = "0 0 15 * * ?")
+    public void scheduleTaskUsingCronExpression() throws MessagingException {
+        // function get email và ngày hết hạn dịch vụ check còn 7 ngày thì gửi mail cảnh báo
+        List<UserInterface> users = userRepository.getEndUserServiceLessTime();
+        String[] emailListTo = users.stream().map(e -> e.getEmail()).toArray(String[]::new);
+        mailService.sendNewMail(emailListTo, null,"" , EXPIRED_PACKAGE, null);
+    }
 }
