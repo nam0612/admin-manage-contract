@@ -9,5 +9,4 @@ import lombok.Setter;
 public class QueueExtendCreate {
     private String companyId;
     private String pricePlanId;
-    private boolean isPayed;
 }

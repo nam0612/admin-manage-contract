@@ -31,7 +31,14 @@ public class QueueExtendController {
 
     @PutMapping
     public BaseResponse approve(@RequestBody QueueExtendCreate queueExtend){
-        return queueExtendService.approve(queueExtend.getCompanyId(), queueExtend.getPricePlanId(), queueExtend.isPayed());
+        return queueExtendService.approve(queueExtend.getCompanyId(), queueExtend.getPricePlanId());
+    }
+
+    @GetMapping("/public/{page}/{size}/{companyId}")
+    public BaseResponse getByCompanyId(@PathVariable(name = "companyId") String id,
+        @PathVariable("page") int page, @PathVariable("size") int size
+    ){
+        return queueExtendService.getByCompanyId(id, Pageable.ofSize(size).withPage(page));
     }
 
 }

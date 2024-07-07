@@ -11,9 +11,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -48,18 +51,24 @@ public class ManagerCompanyController {
 
     @PutMapping("/uploadContract")
     public ResponseEntity<UserDto> uploadContract(
-            @RequestParam("file") File file,
+            @RequestParam("file") MultipartFile file,
             @RequestParam("id") String id
-    ) throws IOException {
+    ){
         if (file == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(userService.uploadContract(file, id));
+        try {
+            return ResponseEntity.ok(userService.uploadContract(convertToFile(file), id));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    @PostMapping("/reset-password")
-    public ResponseEntity<BaseResponse> resetPassword(@RequestParam String email) {
-        return ResponseEntity.ok(userService.resetPass(email));
+    private File convertToFile(MultipartFile multipartFile) throws IOException {
+        Path tempDir = Files.createTempDirectory("upload-");
+        Path tempFile = tempDir.resolve(multipartFile.getOriginalFilename());
+        multipartFile.transferTo(tempFile);
+        return tempFile.toFile();
     }
 
 

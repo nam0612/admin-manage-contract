@@ -29,6 +29,7 @@ public class PricePlanService {
                 .discount(item.getDiscount())
                 .createdDate(String.valueOf(item.getCreatedDate()))
                 .updatedDate(String.valueOf(item.getUpdatedDate()))
+                .discount(item.getDiscount())
                 .build()).toList();
     }
 
@@ -39,6 +40,7 @@ public class PricePlanService {
         pricePlan.setName(dto.getName());
         pricePlan.setUpdatedDate(LocalDateTime.now());
         pricePlan.setTimeWithYears(dto.getTimeWithYears());
+        pricePlan.setDiscount(dto.getDiscount());
         pricePlanRepository.save(pricePlan);
         return PricePlanDto.builder()
                 .name(pricePlan.getName())
@@ -67,6 +69,7 @@ public class PricePlanService {
         pricePlan.setStatus(PlanStatus.ACTIVE);
         pricePlan.setTimeWithYears(dto.getTimeWithYears());
         pricePlan.setCreatedDate(LocalDateTime.now());
+        pricePlan.setDiscount(dto.getDiscount());
         pricePlanRepository.save(pricePlan);
         return PricePlanDto.builder()
                 .name(pricePlan.getName())

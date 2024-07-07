@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface PricePlanRepository extends JpaRepository<PricePlan, String> {
-    Optional<PricePlan> findById(String s);
+    Optional<PricePlan> findByIdAndStatus(String s, PlanStatus status);
     Optional<List<PricePlan>> findByStatus(PlanStatus status);
 
 }

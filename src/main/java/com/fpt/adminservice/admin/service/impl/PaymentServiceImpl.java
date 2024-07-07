@@ -83,11 +83,11 @@ public class PaymentServiceImpl implements PaymentService {
 
             if(queueExtend.getPrice() == payment.getAmount()) {
                 queueExtend.setPaymentStatus(PaymentStatus.COMPLETED);
-                queueExtendService.approve(queueExtend.getCompanyId(), queueExtend.getPricePlanId(), true);
+                queueExtendService.approve(queueExtend.getCompanyId(), queueExtend.getPricePlanId());
             } else if (queueExtend.getPrice() < payment.getAmount()) {
                 queueExtend.setPaymentStatus(PaymentStatus.COMPLETED);
                 queueExtend.setRefund(payment.getAmount() - queueExtend.getPrice());
-                queueExtendService.approve(queueExtend.getCompanyId(), queueExtend.getPricePlanId(), true);
+                queueExtendService.approve(queueExtend.getCompanyId(), queueExtend.getPricePlanId());
             } else if (queueExtend.getPrice() > payment.getAmount()) {
                 queueExtend.setPaymentStatus(PaymentStatus.IN_PROGRESS);
                 queueExtend.setRefund(payment.getAmount());

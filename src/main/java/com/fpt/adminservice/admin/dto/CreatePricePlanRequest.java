@@ -14,4 +14,5 @@ public class CreatePricePlanRequest {
     private String description;
     private Double price;
     private Integer timeWithYears;
+    private Integer discount;
 }

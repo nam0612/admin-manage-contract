@@ -20,4 +20,5 @@ public class QueueExtendDto {
     private String createdDate;
     private String updatedDate;
     private Double amout;
+    private Integer discount;
 }

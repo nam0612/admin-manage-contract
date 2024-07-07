@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,9 +46,12 @@ public class UserService {
         return "Successfully";
     }
 
-    public UserDto createUser(UserCreateRequest userCreateRequest)
+    public BaseResponse createUser(UserCreateRequest userCreateRequest)
     {
-        var planPrice = pricePlanRepository.findById(userCreateRequest.getPlanpriceId()).orElseThrow();
+        var planPrice = pricePlanRepository.findById(userCreateRequest.getPlanpriceId());
+        if(planPrice.isEmpty()) {
+            return new BaseResponse(Constants.ResponseCode.SUCCESS, "Price plane not exist", true, null);
+        }
         User user = User.builder()
                 .taxCode(userCreateRequest.getTaxCode())
                 .companyName(userCreateRequest.getCompanyName())
@@ -55,38 +59,21 @@ public class UserService {
                 .email(userCreateRequest.getEmail())
                 .phone(userCreateRequest.getPhone())
                 .status(UserStatus.PROCESSING)
-                .price(planPrice.getPrice())
                 .pricePlan(userCreateRequest.getPlanpriceId())
                 .createdDate(LocalDateTime.now())
                 .registerDate(LocalDateTime.now())
                 .build();
         userRepository.save(user);
-        return UserDto.builder()
+
+        return new BaseResponse(Constants.ResponseCode.SUCCESS, "Create SUCCESS", true, UserDto.builder()
                 .companyName(user.getCompanyName())
                 .taxCode(user.getTaxCode())
-                .build();
+                .build());
+
     }
 
     public Page<UserInterface> getUsers(Pageable pageable, String userStatus, String name, LocalDateTime fromDate, LocalDateTime toDate) {
         return userRepository.search(QueryUtils.appendPercent(name), QueryUtils.appendPercent(userStatus), fromDate, toDate, pageable);
-//        if(user.isEmpty()) {
-//            return Page.empty();
-//        }
-//        List<UserDto> userDtos = user.stream().map(item -> UserDto.builder()
-//                .id(item.getId())
-//                .companyName(item.getCompanyName())
-//                .taxCode(item.getTaxCode())
-//                .status(item.getStatus())
-//                .price(item.getPrice())
-//                .createdDate(item.getCreatedDate())
-//                .endDateUseService(item.getEndDateUseService())
-//                .registerDate(item.getRegisterDate())
-//                .pricePlanId(item.getPlanId())
-//                .updatedDate(item.getUpdatedDate())
-//                .pricePlanName(item.getPlanName())
-//                .startDateUseService(item.getStartDateUseService())
-//                .build() ).toList();
-//        return new PageImpl<>(userDtos, pageable, userDtos.size());
     }
 
     public UserDto approve(String id) {
@@ -97,7 +84,7 @@ public class UserService {
         LocalDateTime startDate = LocalDateTime.now();
         user.setStartDateUseService(startDate);
         user.setEndDateUseService(startDate.plusYears(planPrice.getTimeWithYears()));
-        user.setPrice(planPrice.getPrice());
+        user.setPrice(planPrice.getPrice() + user.getPrice());
         user.setUpdatedDate(LocalDateTime.now());
         userRepository.save(user);
         return UserDto.builder()
@@ -121,8 +108,7 @@ public class UserService {
         if(user.getStatus() == UserStatus.LOCKED || user.getStatus() == UserStatus.PROCESSING) {
             user.setStatus(UserStatus.INUSE);
         }
-        int year
-        = pricePlan.getTimeWithYears();
+        int year = pricePlan.getTimeWithYears();
         user.setEndDateUseService(user.getEndDateUseService().plusYears(year));
         user.setUpdatedDate(LocalDateTime.now());
         userRepository.save(user);
@@ -220,19 +206,5 @@ public class UserService {
                 .build());
     }
 
-    public BaseResponse resetPass(String email) {
-        Optional<User> user = userRepository.findByEmail(email);
-        if(user.isEmpty()) {
-            return new BaseResponse(Constants.ResponseCode.NOT_FOUND, "user not found", true, null);
-        }
-        int passReset = new Random().nextInt(999999);
-        user.get().setPassword(passwordEncoder.encode(String.valueOf(passReset)));
-        String[] to = new String[]{email};
-        try {
-            mailService.sendNewMail(to, null, "Password Reset", "<h1>Your pass after reset: <h1>" + passReset, null);
-            return new BaseResponse(Constants.ResponseCode.SUCCESS, "Found user", true, null);
-        } catch (Exception e) {
-            return new BaseResponse(Constants.ResponseCode.FAILURE, e.getMessage(), false, null);
-        }
-    }
+
 }

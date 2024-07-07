@@ -8,6 +8,7 @@ import com.fpt.adminservice.admin.repository.QueueExtendRepository;
 import com.fpt.adminservice.admin.service.QueueExtendService;
 import com.fpt.adminservice.admin.service.UserService;
 import com.fpt.adminservice.auth.repository.UserRepository;
+import com.fpt.adminservice.enums.PlanStatus;
 import com.fpt.adminservice.enums.QueueExtendStatus;
 import com.fpt.adminservice.utils.BaseResponse;
 import com.fpt.adminservice.utils.Constants;
@@ -58,15 +59,11 @@ public class QueueExtendServiceImpl implements QueueExtendService {
     }
 
     @Override
-    public BaseResponse approve(String userId, String pricePlanId, boolean isPayed) {
+    public BaseResponse approve(String userId, String pricePlanId) {
         var queueExtend = queueExtendRepository.findByCompanyIdAndAndPricePlanId(userId, pricePlanId);
 
         if (queueExtend.isEmpty()) {
             return new BaseResponse(Constants.ResponseCode.SUCCESS, "Request extend not exist", true, null);
-        }
-
-        if(!isPayed) {
-            return new BaseResponse(Constants.ResponseCode.SUCCESS, "Payment need complete before extend", true, null);
         }
 
         var userDto = userService.extendService(userId, pricePlanId);
@@ -89,7 +86,7 @@ public class QueueExtendServiceImpl implements QueueExtendService {
         queueExtend.setCompanyName(company.get().getCompanyName());
 
 
-        var pricePlan = pricePlanRepository.findById(queueExtendCreate.getPricePlanId());
+        var pricePlan = pricePlanRepository.findByIdAndStatus(queueExtendCreate.getPricePlanId(), PlanStatus.ACTIVE);
         if (pricePlan.isEmpty()) {
             return new BaseResponse(Constants.ResponseCode.SUCCESS, "Price plan not found", true, null);
         }
@@ -108,6 +105,16 @@ public class QueueExtendServiceImpl implements QueueExtendService {
                 .id(queueExtend.getId())
                 .amout(queueExtend.getPrice())
                 .build());
+    }
+
+    @Override
+    public BaseResponse getByCompanyId(String companyId, Pageable pageable) {
+        var queuExtendList = queueExtendRepository.findByCompanyId(companyId, pageable);
+
+        if(queuExtendList.isEmpty()) {
+            return new BaseResponse(Constants.ResponseCode.SUCCESS, "No extend price plan", true, null);
+        }
+        return new BaseResponse(Constants.ResponseCode.SUCCESS, "Search Successfully", true, queuExtendList);
     }
 
 }
