@@ -24,7 +24,7 @@ public class QueueExtendController {
         return queueExtendService.getAll(pageable, status);
     }
 
-    @PostMapping()
+    @PostMapping("/public")
     public BaseResponse create(@RequestBody QueueExtendCreate queueExtendCreate){
         return queueExtendService.create(queueExtendCreate);
     }
