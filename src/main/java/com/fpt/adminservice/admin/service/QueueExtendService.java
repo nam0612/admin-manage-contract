@@ -11,4 +11,5 @@ public interface QueueExtendService {
     BaseResponse approve(String userId, String pricePlanId);
     BaseResponse create(QueueExtendCreate queueExtendCreate);
     BaseResponse getByCompanyId(String companyId, Pageable pageable);
+    BaseResponse reject(String id);
 }

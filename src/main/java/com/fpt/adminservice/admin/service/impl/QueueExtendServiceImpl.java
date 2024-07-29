@@ -62,7 +62,7 @@ public class QueueExtendServiceImpl implements QueueExtendService {
 
     @Override
     public BaseResponse approve(String userId, String pricePlanId) {
-        var queueExtend = queueExtendRepository.findByCompanyIdAndAndPricePlanId(userId, pricePlanId);
+        var queueExtend = queueExtendRepository.findByCompanyIdAndAndPricePlanId(userId, pricePlanId, QueueExtendStatus.PROCESSING.getQueueExtendStatus());
 
         if (queueExtend.isEmpty()) {
             return new BaseResponse(Constants.ResponseCode.SUCCESS, "Request extend not exist", true, null);
@@ -117,6 +117,18 @@ public class QueueExtendServiceImpl implements QueueExtendService {
             return new BaseResponse(Constants.ResponseCode.SUCCESS, "No extend price plan", true, null);
         }
         return new BaseResponse(Constants.ResponseCode.SUCCESS, "Search Successfully", true, queuExtendList);
+    }
+
+    @Override
+    public BaseResponse reject(String id) {
+        var queueExtend = queueExtendRepository.findById(id);
+
+        if (queueExtend.isEmpty()) {
+            return new BaseResponse(Constants.ResponseCode.SUCCESS, "Request extend not exist", true, null);
+        }
+        queueExtend.get().setStatus(QueueExtendStatus.REJECTED);
+        queueExtendRepository.save(queueExtend.get());
+        return new BaseResponse(Constants.ResponseCode.SUCCESS, "Reject Successfully", true, null);
     }
 
 }
