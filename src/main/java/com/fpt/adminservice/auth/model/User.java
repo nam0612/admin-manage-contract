@@ -29,7 +29,7 @@ public class User implements UserDetails {
     @UuidGenerator
     private String id;
 
-    @UniqueElements
+    @Column(unique=true)
     private String email;
 
     private String phone;
@@ -62,7 +62,7 @@ public class User implements UserDetails {
 
     private String file;
 
-    @UniqueElements
+    @Column(unique=true)
     private String userCode;
 
     private String role;
