@@ -23,11 +23,11 @@ public class QueueExtendController {
     @GetMapping()
     public BaseResponse getAll(
             @RequestParam(name = "status", required = false) String status,
-            @RequestParam(name = "companyName", required = false) String name,
+            @RequestParam(name = "companyName", required = false) String companyName,
             @RequestParam(name = "fromDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
             @RequestParam(name = "toDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate toDate,
             Pageable pageable) {
-        return queueExtendService.getAll(pageable, status, name, fromDate, toDate);
+        return queueExtendService.getAll(pageable, status, companyName, fromDate, toDate);
     }
 
     @PostMapping("/public")
