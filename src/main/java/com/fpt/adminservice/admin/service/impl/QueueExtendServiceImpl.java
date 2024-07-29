@@ -35,7 +35,7 @@ public class QueueExtendServiceImpl implements QueueExtendService {
 
     @Override
     public BaseResponse getAll(Pageable pageable, String status, String name, LocalDate fromDate, LocalDate toDate) {
-        var queueExtends = queueExtendRepository.getAll(status, QueryUtils.appendPercent(name), fromDate, toDate, pageable);
+        var queueExtends = queueExtendRepository.getAll(QueryUtils.appendPercent(status), QueryUtils.appendPercent(name), fromDate, toDate, pageable);
 
         if (queueExtends.isEmpty()) {
             return new BaseResponse(Constants.ResponseCode.SUCCESS, "Not have any request extend price plan", true, null);
