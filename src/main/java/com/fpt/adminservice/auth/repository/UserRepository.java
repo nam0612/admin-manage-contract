@@ -30,12 +30,14 @@ public interface UserRepository extends JpaRepository<User, Integer> {
                            and (lower(u.status) like lower(:status) or :status is null)
                            and (u.start_date_use_service >= :fromDate or  :fromDate is null)
                            and (u.start_date_use_service <= :toDate or :toDate is null)
+                           and (u.role = :role)
             """
             , nativeQuery = true)
     Page<UserInterface> search(@Param("name") String name,
                                @Param("status") String status,
                                @Param("fromDate") LocalDate fromDate,
                                @Param("toDate") LocalDate toDate,
+                               @Param("role") String role,
                                Pageable pageable);
 
 

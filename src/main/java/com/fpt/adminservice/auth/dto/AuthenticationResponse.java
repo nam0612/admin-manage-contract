@@ -1,11 +1,12 @@
 package com.fpt.adminservice.auth.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fpt.adminservice.auth.model.User;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Setter
 @Getter
+@Builder
+@AllArgsConstructor
 public class AuthenticationResponse {
 
     @JsonProperty("access_token")

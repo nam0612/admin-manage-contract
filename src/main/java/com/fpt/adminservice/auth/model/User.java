@@ -1,9 +1,11 @@
 package com.fpt.adminservice.auth.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fpt.adminservice.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,10 +29,12 @@ public class User implements UserDetails {
     @UuidGenerator
     private String id;
 
+    @UniqueElements
     private String email;
 
     private String phone;
 
+    @JsonIgnore
     private String password;
 
     private String companyName;
@@ -57,6 +61,11 @@ public class User implements UserDetails {
     private String pricePlan;
 
     private String file;
+
+    @UniqueElements
+    private String userCode;
+
+    private String role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -63,6 +63,8 @@ public class UserService {
                 .pricePlan(userCreateRequest.getPlanpriceId())
                 .createdDate(LocalDateTime.now())
                 .registerDate(LocalDateTime.now())
+                .role(Constants.ROLE.USER)
+                .userCode(userCreateRequest.getUserCode())
                 .build();
         userRepository.save(user);
 
@@ -73,11 +75,11 @@ public class UserService {
 
     }
 
-    public Page<UserInterface> getUsers(Pageable pageable, String userStatus, String name, LocalDate fromDate, LocalDate toDate) {
-        return userRepository.search(QueryUtils.appendPercent(name), QueryUtils.appendPercent(userStatus), fromDate, toDate, pageable);
+    public BaseResponse getUsers(Pageable pageable, String userStatus, String name, LocalDate fromDate, LocalDate toDate) {
+        return new BaseResponse(Constants.ResponseCode.SUCCESS, "Search SUCCESS", true,  userRepository.search(QueryUtils.appendPercent(name), QueryUtils.appendPercent(userStatus), fromDate, toDate, Constants.ROLE.USER, pageable));
     }
 
-    public UserDto approve(String id) {
+    public BaseResponse approve(String id) {
         var user = userRepository.findById(id).orElseThrow();
         var planPrice = pricePlanRepository.findById(user.getPricePlan()).orElseThrow();
         user.setStatus(UserStatus.INUSE);
@@ -88,17 +90,17 @@ public class UserService {
         user.setPrice(planPrice.getPrice() + user.getPrice());
         user.setUpdatedDate(LocalDateTime.now());
         userRepository.save(user);
-        return UserDto.builder()
+        return new BaseResponse(Constants.ResponseCode.SUCCESS, "Approve SUCCESS", true, UserDto.builder()
                 .presenter(user.getPresenter())
                 .companyName(user.getCompanyName())
                 .taxCode(user.getTaxCode())
                 .status(user.getStatus())
                 .startDateUseService(startDate)
                 .endDateUseService(user.getEndDateUseService())
-                .build();
+                .build());
     }
 
-    public UserDto extendService(String id, String pricePlanId) {
+    public BaseResponse extendService(String id, String pricePlanId) {
         var user = userRepository.findById(id).orElseThrow();
         var pricePlan = pricePlanRepository.findById(pricePlanId).orElseThrow();
 
@@ -114,7 +116,7 @@ public class UserService {
         user.setUpdatedDate(LocalDateTime.now());
         userRepository.save(user);
 
-        return UserDto.builder()
+        return new BaseResponse(Constants.ResponseCode.SUCCESS, "Extend SUCCESS", true, UserDto.builder()
                 .pricePlanId(pricePlanId)
                 .companyName(user.getCompanyName())
                 .taxCode(user.getTaxCode())
@@ -122,15 +124,15 @@ public class UserService {
                 .id(user.getId())
                 .endDateUseService(user.getEndDateUseService())
                 .price(user.getPrice())
-                .build();
+                .build());
     }
 
-    public UserDto uploadContract(File file, String id) throws IOException {
+    public BaseResponse uploadContract(File file, String id) throws IOException {
         var user = userRepository.findById(id).orElseThrow();
         String fileLink = cloudinaryService.uploadPdf(file);
         user.setFile(fileLink);
         userRepository.save(user);
-        return UserDto.builder()
+        return new BaseResponse(Constants.ResponseCode.SUCCESS, "Approve SUCCESS", true, UserDto.builder()
                 .pricePlanId(user.getPricePlan())
                 .companyName(user.getCompanyName())
                 .taxCode(user.getTaxCode())
@@ -138,7 +140,7 @@ public class UserService {
                 .id(user.getId())
                 .endDateUseService(user.getEndDateUseService())
                 .price(user.getPrice())
-                .build();
+                .build());
 
     }
 

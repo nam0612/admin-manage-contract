@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,9 +20,16 @@ public interface QueueExtendRepository extends JpaRepository<QueueExtend, String
         select * from queue_extend qe
                  where 1=1
                  and (qe.status = :status or :status is null)
+                 and (lower(qe.company_name) like lower(:name) or :name is null)
+                 and (qe.created_date >= :fromDate or :fromDate is null)
+                 and (qe.created_date <= :toDate or :toDate is null)
+                 order by qe.created_date desc
     """, nativeQuery = true)
     Page<QueueExtend> getAll(
             @Param("status") String status,
+            @Param("name") String name,
+            @Param("fromDate") LocalDate fromDate,
+            @Param("toDate") LocalDate toDate,
             Pageable pageable
     );
 

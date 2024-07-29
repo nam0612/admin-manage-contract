@@ -7,7 +7,10 @@ import com.fpt.adminservice.utils.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 
 @Slf4j
@@ -20,8 +23,11 @@ public class QueueExtendController {
     @GetMapping()
     public BaseResponse getAll(
             @RequestParam(name = "status", required = false) String status,
+            @RequestParam(name = "companyName", required = false) String name,
+            @RequestParam(name = "fromDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
+            @RequestParam(name = "toDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate toDate,
             Pageable pageable) {
-        return queueExtendService.getAll(pageable, status);
+        return queueExtendService.getAll(pageable, status, name, fromDate, toDate);
     }
 
     @PostMapping("/public")

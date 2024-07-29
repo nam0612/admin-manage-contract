@@ -20,6 +20,11 @@ public interface Constants {
         final public static int PAGE_NUMBER = 0;
         final public static int PAGE_SIZE = 11;
     }
+
+    public static interface ROLE {
+        final public static String USER = "USER";
+        final public static String ADMIN = "ADMIN";
+    }
     public static interface MESSAGE_MAIL {
         final public static String EXPIRED_PACKAGE = "<!DOCTYPE html>\n" +
                 "<html>\n" +

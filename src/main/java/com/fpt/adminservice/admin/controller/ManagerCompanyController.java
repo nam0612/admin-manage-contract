@@ -31,7 +31,7 @@ public class ManagerCompanyController {
     private final UserService userService;
 
     @GetMapping()
-    public ResponseEntity<Page<UserInterface>> getAllUsers(
+    public ResponseEntity<BaseResponse> getAllUsers(
             @RequestParam(name = "status", required = false) String status,
             @RequestParam(name = "fromDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
             @RequestParam(name = "toDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate toDate,
@@ -41,7 +41,7 @@ public class ManagerCompanyController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> approveUser(@PathVariable("id") String id) {
+    public ResponseEntity<BaseResponse> approveUser(@PathVariable("id") String id) {
         return ResponseEntity.ok(userService.approve(id));
     }
 
@@ -52,7 +52,7 @@ public class ManagerCompanyController {
 
 
     @PutMapping("/uploadContract")
-    public ResponseEntity<UserDto> uploadContract(
+    public ResponseEntity<BaseResponse> uploadContract(
             @RequestParam("file") MultipartFile file,
             @RequestParam("id") String id
     ){

@@ -12,12 +12,14 @@ import com.fpt.adminservice.enums.PlanStatus;
 import com.fpt.adminservice.enums.QueueExtendStatus;
 import com.fpt.adminservice.utils.BaseResponse;
 import com.fpt.adminservice.utils.Constants;
+import com.fpt.adminservice.utils.QueryUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -32,8 +34,8 @@ public class QueueExtendServiceImpl implements QueueExtendService {
     private final UserService userService;
 
     @Override
-    public BaseResponse getAll(Pageable pageable, String status) {
-        var queueExtends = queueExtendRepository.getAll(status, pageable);
+    public BaseResponse getAll(Pageable pageable, String status, String name, LocalDate fromDate, LocalDate toDate) {
+        var queueExtends = queueExtendRepository.getAll(status, QueryUtils.appendPercent(name), fromDate, toDate, pageable);
 
         if (queueExtends.isEmpty()) {
             return new BaseResponse(Constants.ResponseCode.SUCCESS, "Not have any request extend price plan", true, null);
