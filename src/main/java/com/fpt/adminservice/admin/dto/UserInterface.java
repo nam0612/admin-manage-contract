@@ -18,4 +18,5 @@ public interface UserInterface {
     String getPlanId();
     String getPlanName();
     String getEmail();
+    String getFile();
 }

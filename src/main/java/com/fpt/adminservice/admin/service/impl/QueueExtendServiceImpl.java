@@ -95,7 +95,7 @@ public class QueueExtendServiceImpl implements QueueExtendService {
 
         queueExtend.setPricePlanId(pricePlan.get().getId());
         queueExtend.setPricePlanName(pricePlan.get().getName());
-        queueExtend.setPrice(pricePlan.get().getPrice());
+        queueExtend.setPrice(pricePlan.get().getPrice() - pricePlan.get().getPrice() / 100 * pricePlan.get().getDiscount());
 
 
         queueExtend.setTaxCode(company.get().getTaxCode());

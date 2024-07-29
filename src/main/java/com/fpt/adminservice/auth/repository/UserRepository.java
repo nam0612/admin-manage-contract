@@ -23,7 +23,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Page<User> findByStatus(UserStatus status, Pageable pageable);
     @Query(value = """
         SELECT u.id,u.company_name as companyName, u.tax_code as taxCode, u.created_date as createdDate, u.end_date_use_service as endDateUseService, u.start_date_use_service as startDateUseService, 
-            u.register_date, u.price, u.status, pp.name as planName, pp.id as planId, u.register_date as registerDate, u.email, u.updated_date as updatedDate
+            u.register_date, u.price, u.status, pp.name as planName, pp.id as planId, u.register_date as registerDate, u.email, u.updated_date as updatedDate, u.file
                            FROM users u
                            LEFT JOIN price_plan pp ON u.price_plan = pp.id where
                            (lower(u.company_name) like lower(:name) or :name is null)

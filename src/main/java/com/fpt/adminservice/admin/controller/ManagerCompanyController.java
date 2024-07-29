@@ -21,6 +21,7 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 
 @Slf4j
@@ -68,7 +69,7 @@ public class ManagerCompanyController {
 
     private File convertToFile(MultipartFile multipartFile) throws IOException {
         Path tempDir = Files.createTempDirectory("upload-");
-        Path tempFile = tempDir.resolve(multipartFile.getOriginalFilename());
+        Path tempFile = tempDir.resolve(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         multipartFile.transferTo(tempFile);
         return tempFile.toFile();
     }
