@@ -43,6 +43,7 @@ public interface QueueExtendRepository extends JpaRepository<QueueExtend, String
             @Param("companyId") String companyId,
             @Param("pricePlanId") String pricePlanId,
             @Param("status") String status);
+
     Optional<QueueExtend> findByPaymentId(Integer paymentId);
 
     Page<QueueExtend> findByCompanyId(String companyId, Pageable pageable);

@@ -68,7 +68,7 @@ public class QueueExtendServiceImpl implements QueueExtendService {
             return new BaseResponse(Constants.ResponseCode.SUCCESS, "Request extend not exist", true, null);
         }
 
-        var userDto = userService.extendService(userId, pricePlanId);
+        var userDto = userService.extendService(userId, pricePlanId).getObject();
         if (userDto == null) {
             return new BaseResponse(Constants.ResponseCode.SUCCESS, "Request extend not valid", true, userDto);
         }
