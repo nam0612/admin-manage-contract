@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -31,11 +33,11 @@ public class ManagerCompanyController {
     @GetMapping()
     public ResponseEntity<Page<UserInterface>> getAllUsers(
             @RequestParam(name = "status", required = false) String status,
-            @RequestParam(name = "fromDate", required = false) LocalDateTime fromDate,
-            @RequestParam(name = "startDate", required = false) LocalDateTime startDate,
+            @RequestParam(name = "fromDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
+            @RequestParam(name = "toDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate toDate,
             @RequestParam(name = "name", required = false) String name,
             Pageable pageable) {
-        return ResponseEntity.ok(userService.getUsers(pageable, status, name, fromDate, startDate));
+        return ResponseEntity.ok(userService.getUsers(pageable, status, name, fromDate, toDate));
     }
 
     @PutMapping("/{id}")

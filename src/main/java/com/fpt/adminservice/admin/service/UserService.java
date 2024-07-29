@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -72,7 +73,7 @@ public class UserService {
 
     }
 
-    public Page<UserInterface> getUsers(Pageable pageable, String userStatus, String name, LocalDateTime fromDate, LocalDateTime toDate) {
+    public Page<UserInterface> getUsers(Pageable pageable, String userStatus, String name, LocalDate fromDate, LocalDate toDate) {
         return userRepository.search(QueryUtils.appendPercent(name), QueryUtils.appendPercent(userStatus), fromDate, toDate, pageable);
     }
 

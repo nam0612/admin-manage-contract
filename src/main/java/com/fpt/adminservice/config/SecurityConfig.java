@@ -31,6 +31,7 @@ public class SecurityConfig {
             .requestMatchers("/api-docs/**").permitAll()
                 .requestMatchers("/payment/**").permitAll()
                 .requestMatchers("/manager/queueExtend/public/**").permitAll()
+                .requestMatchers("/manager/**").permitAll()
 //            .requestMatchers("/manager/**").hasAnyRole(ADMIN.name(), MANAGER.name())
             .anyRequest().authenticated()).sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
 
