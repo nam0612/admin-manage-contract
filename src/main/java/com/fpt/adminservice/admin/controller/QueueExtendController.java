@@ -40,7 +40,7 @@ public class QueueExtendController {
         return queueExtendService.approve(queueExtend.getCompanyId(), queueExtend.getPricePlanId());
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public BaseResponse reject(@PathVariable String id){
         return queueExtendService.reject(id);
     }
