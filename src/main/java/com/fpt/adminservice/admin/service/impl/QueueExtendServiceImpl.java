@@ -86,7 +86,10 @@ public class QueueExtendServiceImpl implements QueueExtendService {
         }
         queueExtend.setCompanyId(company.get().getId());
         queueExtend.setCompanyName(company.get().getCompanyName());
-
+        var queueExtendExist = queueExtendRepository.findByCompanyIdAndStatus(company.get().getId(), QueueExtendStatus.PROCESSING.getQueueExtendStatus());
+        if(queueExtendExist.isPresent()) {
+            return new BaseResponse(Constants.ResponseCode.FAILURE, "Extend Request existed, You need wait to approve", false, null);
+        }
 
         var pricePlan = pricePlanRepository.findByIdAndStatus(queueExtendCreate.getPricePlanId(), PlanStatus.ACTIVE);
         if (pricePlan.isEmpty()) {
