@@ -56,5 +56,7 @@ public interface QueueExtendRepository extends JpaRepository<QueueExtend, String
     Optional<QueueExtend> findByCompanyIdAndStatus(
             @Param("companyId") String companyId,
             @Param("status") String status);
+
+    Optional<QueueExtend> findByOrderNumber(String orderNumber);
 }
 

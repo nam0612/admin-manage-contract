@@ -2,6 +2,7 @@ package com.fpt.adminservice.admin.service.impl;
 
 import com.fpt.adminservice.admin.dto.QueueExtendCreate;
 import com.fpt.adminservice.admin.dto.QueueExtendDto;
+import com.fpt.adminservice.admin.model.PricePlan;
 import com.fpt.adminservice.admin.model.QueueExtend;
 import com.fpt.adminservice.admin.repository.PricePlanRepository;
 import com.fpt.adminservice.admin.repository.QueueExtendRepository;
@@ -21,8 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +41,7 @@ public class QueueExtendServiceImpl implements QueueExtendService {
             return new BaseResponse(Constants.ResponseCode.SUCCESS, "Not have any request extend price plan", true, null);
         }
 
+
         List<QueueExtendDto> queueExtendList = queueExtends.get().map(
                 item -> QueueExtendDto.builder()
                         .id(item.getId())
@@ -52,6 +53,7 @@ public class QueueExtendServiceImpl implements QueueExtendService {
                         .status(item.getStatus().getQueueExtendStatus())
                         .createdDate(String.valueOf(item.getCreatedDate()))
                         .updatedDate(String.valueOf(item.getUpdatedDate()))
+                        .amout(item.getPrice())
                         .build()
                 )
                 .toList();
@@ -105,7 +107,10 @@ public class QueueExtendServiceImpl implements QueueExtendService {
         queueExtend.setCreatedDate(LocalDateTime.now());
         queueExtend.setStatus(QueueExtendStatus.PROCESSING);
 
-        queueExtendRepository.save(queueExtend);
+        QueueExtend newQueueExtend = queueExtendRepository.save(queueExtend);
+        String orderNumber = Arrays.toString(newQueueExtend.getId().split("-"));
+        newQueueExtend.setOrderNumber(orderNumber);
+        queueExtendRepository.save(newQueueExtend);
         return new BaseResponse(Constants.ResponseCode.SUCCESS, "Create Successfully", true, QueueExtendDto.builder()
                 .id(queueExtend.getId())
                 .amout(queueExtend.getPrice())

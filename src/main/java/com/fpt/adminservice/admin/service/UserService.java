@@ -87,7 +87,7 @@ public class UserService {
         LocalDateTime startDate = LocalDateTime.now();
         user.setStartDateUseService(startDate);
         user.setEndDateUseService(startDate.plusYears(planPrice.getTimeWithYears()));
-        user.setPrice(planPrice.getPrice() + user.getPrice());
+        user.setPrice(planPrice.getPrice() + user.getPrice() - planPrice.getPrice() / 100 * planPrice.getDiscount());
         user.setUpdatedDate(LocalDateTime.now());
         userRepository.save(user);
         return new BaseResponse(Constants.ResponseCode.SUCCESS, "Approve SUCCESS", true, UserDto.builder()

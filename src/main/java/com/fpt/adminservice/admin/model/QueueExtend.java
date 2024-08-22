@@ -47,4 +47,7 @@ public class QueueExtend {
     private Integer paymentId;
 
     private Double refund;
+
+    @Column(unique = true, nullable = false)
+    private String orderNumber;
 }

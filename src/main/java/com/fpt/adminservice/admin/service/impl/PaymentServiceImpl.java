@@ -27,7 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
 
-    private final String tokenSecure = "AK_CS.65c54f10280211ef8ba097bf785e386b.0nDUlImdAtMsUL24t19RC8pvLN7hzsxiRyOLuY6kNjvKTUXiw3hbifu5KONkZOc22HRm9vCy";
+    private final String tokenSecure = "AK_CS.d79a3660609b11efa5dbff93fab61642.iDVgCVKjyy4My8sqF78mxZrQ6Nyf6uF3mimIllC8x7qctwlIwUt9fgiZkdODvujzepI8kHr4";
     private final RestTemplate restTemplate;
     private final QueueExtendRepository queueExtendRepository;
     private final QueueExtendService queueExtendService;
@@ -50,7 +50,7 @@ public class PaymentServiceImpl implements PaymentService {
         for (PaymentCasso payment : paymentCasso) {
             var queueExtendObject = queueExtendRepository.findByPaymentId(payment.getId());
             if(queueExtendObject.isPresent()){
-                if(queueExtendObject.get().getPaymentStatus() == PaymentStatus.COMPLETED) {
+                if(queueExtendObject.get().getPaymentStatus().equals(PaymentStatus.COMPLETED)) {
                     break;
                 } else {
                     queueExtendObject.get().setPaymentId(payment.getId());
@@ -73,7 +73,7 @@ public class PaymentServiceImpl implements PaymentService {
             }
             String orderId = destrip[indexIdOrder + 1];
 
-            var queueExtendbject = queueExtendRepository.findById(orderId);
+            var queueExtendbject = queueExtendRepository.findByOrderNumber(orderId);
 
             if (queueExtendbject.isEmpty()) {
                 return new BaseResponse(Constants.ResponseCode.FAILURE, "Payment is not exist", true, null);
@@ -81,7 +81,7 @@ public class PaymentServiceImpl implements PaymentService {
 
             QueueExtend queueExtend = queueExtendbject.get();
 
-            if(queueExtend.getPrice() == payment.getAmount()) {
+            if(queueExtend.getPrice().equals(payment.getAmount())) {
                 queueExtend.setPaymentStatus(PaymentStatus.COMPLETED);
                 queueExtendService.approve(queueExtend.getCompanyId(), queueExtend.getPricePlanId());
             } else if (queueExtend.getPrice() < payment.getAmount()) {
@@ -95,7 +95,7 @@ public class PaymentServiceImpl implements PaymentService {
 
             queueExtendRepository.save(queueExtend);
         }
-        return new BaseResponse(Constants.ResponseCode.FAILURE, "Upload Contract Failed", true, null);
+        return new BaseResponse(Constants.ResponseCode.FAILURE, "Approved", true, null);
     }
 
     public BaseResponse GenerateQR(String orderId, float amount)
@@ -140,4 +140,5 @@ public class PaymentServiceImpl implements PaymentService {
     public BaseResponse GetPayments() {
         return null;
     }
+
 }
