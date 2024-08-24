@@ -119,10 +119,10 @@ public class QueueExtendServiceImpl implements QueueExtendService {
 
     @Override
     public BaseResponse getByCompanyId(String companyId, Pageable pageable) {
-        var queuExtendList = queueExtendRepository.findByCompanyId(companyId, pageable);
+        var queuExtendList = queueExtendRepository.findByEmail(companyId, pageable);
 
         if(queuExtendList.isEmpty()) {
-            return new BaseResponse(Constants.ResponseCode.SUCCESS, "No extend price plan", true, null);
+            return new BaseResponse(Constants.ResponseCode.SUCCESS, "No extend plan", true, null);
         }
         return new BaseResponse(Constants.ResponseCode.SUCCESS, "Search Successfully", true, queuExtendList);
     }

@@ -45,11 +45,15 @@ public interface QueueExtendRepository extends JpaRepository<QueueExtend, String
             @Param("status") String status);
 
     Optional<QueueExtend> findByPaymentId(Integer paymentId);
-
-    Page<QueueExtend> findByCompanyId(String companyId, Pageable pageable);
+    @Query(value = """
+            select qe.* from queue_extend qe join users us on qe.company_id = us.id
+            where 1=1
+            and us.email = :email
+        """, nativeQuery = true)
+    Page<QueueExtend> findByEmail(String email, Pageable pageable);
 
     @Query(value = """
-        select * from queue_extend qe
+        select *  from queue_extend qe
         where 1=1 and qe.company_id = :companyId
         and (qe.status = :status)
     """, nativeQuery = true)

@@ -45,11 +45,11 @@ public class QueueExtendController {
         return queueExtendService.reject(id);
     }
 
-    @GetMapping("/public/{page}/{size}/{companyId}")
-    public BaseResponse getByCompanyId(@PathVariable(name = "companyId") String id,
+    @GetMapping("/public/{page}/{size}/{companyMail}")
+    public BaseResponse getByCompanyId(@PathVariable(name = "companyMail") String companyMail,
         @PathVariable("page") int page, @PathVariable("size") int size
     ){
-        return queueExtendService.getByCompanyId(id, Pageable.ofSize(size).withPage(page));
+        return queueExtendService.getByCompanyId(companyMail, Pageable.ofSize(size).withPage(page));
     }
 
 }

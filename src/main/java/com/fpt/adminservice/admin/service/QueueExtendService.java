@@ -10,6 +10,6 @@ public interface QueueExtendService {
     BaseResponse getAll(Pageable pageable, String status, String name, LocalDate fromDate, LocalDate toDate);
     BaseResponse approve(String userId, String pricePlanId);
     BaseResponse create(QueueExtendCreate queueExtendCreate);
-    BaseResponse getByCompanyId(String companyId, Pageable pageable);
+    BaseResponse getByCompanyId(String companyMail, Pageable pageable);
     BaseResponse reject(String id);
 }
