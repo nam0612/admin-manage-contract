@@ -108,8 +108,12 @@ public class QueueExtendServiceImpl implements QueueExtendService {
         queueExtend.setStatus(QueueExtendStatus.PROCESSING);
         queueExtend.setOrderNumber("0");
         QueueExtend newQueueExtend = queueExtendRepository.save(queueExtend);
-        String orderNumber = Arrays.toString(newQueueExtend.getId().split("-"));
-        newQueueExtend.setOrderNumber(orderNumber);
+        String[] orderNumberArr = newQueueExtend.getId().split("-");
+        StringBuilder orderNumber = new StringBuilder();
+        for (String s : orderNumberArr) {
+            orderNumber.append(s);
+        }
+        newQueueExtend.setOrderNumber(orderNumber.toString());
         queueExtendRepository.save(newQueueExtend);
         return new BaseResponse(Constants.ResponseCode.SUCCESS, "Create Successfully", true, QueueExtendDto.builder()
                 .id(queueExtend.getId())
