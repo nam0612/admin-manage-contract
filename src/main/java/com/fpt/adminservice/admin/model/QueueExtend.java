@@ -48,6 +48,5 @@ public class QueueExtend {
 
     private Double refund;
 
-    @Column(unique = true, nullable = false)
     private String orderNumber;
 }

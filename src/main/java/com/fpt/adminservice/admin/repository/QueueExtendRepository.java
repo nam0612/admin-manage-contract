@@ -49,6 +49,7 @@ public interface QueueExtendRepository extends JpaRepository<QueueExtend, String
             select qe.* from queue_extend qe join users us on qe.company_id = us.id
             where 1=1
             and us.email = :email
+            order by qe.created_date desc
         """, nativeQuery = true)
     Page<QueueExtend> findByEmail(String email, Pageable pageable);
 
