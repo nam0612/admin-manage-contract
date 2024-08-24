@@ -106,7 +106,7 @@ public class QueueExtendServiceImpl implements QueueExtendService {
         queueExtend.setTaxCode(company.get().getTaxCode());
         queueExtend.setCreatedDate(LocalDateTime.now());
         queueExtend.setStatus(QueueExtendStatus.PROCESSING);
-
+        queueExtend.setOrderNumber("0");
         QueueExtend newQueueExtend = queueExtendRepository.save(queueExtend);
         String orderNumber = Arrays.toString(newQueueExtend.getId().split("-"));
         newQueueExtend.setOrderNumber(orderNumber);
