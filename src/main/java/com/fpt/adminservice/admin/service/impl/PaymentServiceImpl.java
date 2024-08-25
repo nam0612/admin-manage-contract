@@ -108,8 +108,8 @@ public class PaymentServiceImpl implements PaymentService {
         try
         {
             var data = RequestQrDto.builder()
-                    .accountNo("9909090111")
-                    .accountName("NGUYEN HAI NAM")
+                    .accountNo("0352334588")
+                    .accountName("DUONG DOAN ANH TU")
                     .acqId("970422")
                     .addInfo("TDOCMAN " + orderId)
                     .amount(amount)
