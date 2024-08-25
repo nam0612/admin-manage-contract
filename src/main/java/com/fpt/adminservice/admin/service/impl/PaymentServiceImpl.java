@@ -27,7 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
 
-    private final String tokenSecure = "AK_CS.d79a3660609b11efa5dbff93fab61642.iDVgCVKjyy4My8sqF78mxZrQ6Nyf6uF3mimIllC8x7qctwlIwUt9fgiZkdODvujzepI8kHr4";
+    private final String tokenSecure = "AK_CS.05c96f7062fd11efa5dbff93fab61642.CZas5lu1do1a45bLadFyh602w9kLD8P1DSR7fugH3h7jfLWtR9ZBaK0F9Sp4WqanfAaCsOIE";
     private final RestTemplate restTemplate;
     private final QueueExtendRepository queueExtendRepository;
     private final QueueExtendService queueExtendService;
