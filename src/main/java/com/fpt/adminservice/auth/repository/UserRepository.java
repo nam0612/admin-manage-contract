@@ -31,6 +31,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
                            and (u.start_date_use_service >= :fromDate or  :fromDate is null)
                            and (u.start_date_use_service <= :toDate or :toDate is null)
                            and (u.role = :role)
+                           order by u.created_date desc
             """
             , nativeQuery = true)
     Page<UserInterface> search(@Param("name") String name,
